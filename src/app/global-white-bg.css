@@ -1,0 +1,4 @@
+/* Intentionally empty.
+   The Frutiger Aero rebuild uses a sky-gradient background on body.aero-body
+   instead of forcing white. Leaving this file as a no-op so any lingering
+   imports don't break the build. Safe to delete once nothing imports it. */

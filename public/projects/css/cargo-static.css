@@ -1,0 +1,188 @@
+/*****************************
+ * 
+    Production / Development Notes:
+ *
+ ******************************/
+/*  
+* 
+    Z Index Guide:
+    Let's extend this guide with specific zones for different sub-sections within these
+    I.E.: Interface Buttons: 1001–1010, Modals:  1011–1020;
+
+    Zones:
+    Zone 1: [0-999]  Elements within the Site (pins, etc...)
+        1000-1010: Interface Areas:  <button-area> > <button>, <drop-area>, etc...
+    Zone 2: [1000-2000]:  Interface that always goes above the site (alert modal, edit button, quick view modal, etc...)
+
+*/
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+/* Keep these selectors separate as some of the more "specific" pseudo-selectors don't support comma-separated selector names */
+html.editing::-webkit-scrollbar {
+    display: none !important;
+}
+
+body.editing::-webkit-scrollbar {
+    display: none !important;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+html.editing,
+body.editing {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+body.wf-initial-load *,
+html.wf-initial-load * {
+    color: transparent !important;
+    -webkit-text-stroke: 0px transparent;
+    text-stroke: 0 transparent;
+    text-shadow: 0 0 transparent;
+}
+
+html.wf-initial-load hr {
+    background: none !important;
+}
+
+/*****************************
+    Frontend Interface
+******************************/
+body {
+    --baseColor-accent: #FF0000;
+    --baseColor-accent-rgb: 255, 0, 0;
+    --baseColor-accent-reverse-rgb: 255, 255, 255;
+}
+
+/*****************************
+	Resets / Browser Fixes
+******************************/
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+:focus {
+    outline: 0;
+}
+
+select,
+select * {
+    text-rendering: auto !important;
+}
+
+/*****************************
+	Body / Custom HTML
+******************************/
+html,
+body {
+    min-height: var(--viewport-height, 100vh);
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    --mobile-scale: 1;
+    font-size: var(--base-size);
+    touch-action: manipulation;
+    position: relative;
+}
+
+html.mobile {
+    font-size: calc(var(--base-size) * var(--mobile-scale));
+}
+
+body {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: none;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: var(--viewport-height, 100vh);
+    justify-content: flex-start;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+}
+
+body.no-scroll {
+    overflow: hidden;
+}
+
+customhtml>* {
+    position: relative;
+    z-index: 10;
+}
+
+/*****************************
+	Site Content
+******************************/
+
+.page a.active,
+bodycopy * a {
+    text-decoration-color: unset;
+    -webkit-text-decoration-color: unset;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-height: 100%;
+    position: relative;
+    flex-grow: 1;
+    border-color: transparent;
+    border-width: 0;
+    /*    width: 100%;*/
+}
+
+.pages {
+    width: 100%;
+    flex: 1 0 auto;
+}
+
+@supports (height: 100svh) {
+    .page.stacked-page {
+        --viewport-height: 100svh;
+    }
+    .page.stacked-page + .page.stacked-page {
+        --viewport-height: 100vh;
+    }
+}
+
+.overlay-content {
+    mix-blend-mode: var(--overlay-mix, normal);
+}
+
+.page {
+    --split-backdrop-height: calc(var(--viewport-height) / 2);
+    --split-content-height: calc(var(--viewport-height) - var(--split-backdrop-height));
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    max-width: 100%;
+    width: 100%;
+    flex: 0;
+    mix-blend-mode: var(--page-mix, normal);
+}
+
+.page.has-backdrop-filter {
+    background-color: rgba(0,0,0,0.01);
+    backdrop-filter: var(--page-backdrop-filter, none);
+    -webkit-backdrop-filter: var(--page-backdrop-filter, none);  
+}
+
+.overlay-content .page {
+    mix-blend-mode: unset;
+}
+
+.mobile .page {
+    flex-wrap: wrap;
+}
