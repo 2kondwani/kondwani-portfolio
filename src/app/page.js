@@ -103,25 +103,24 @@ export default function Home() {
         </p>
 
         <div className="aero-bio-text">
-          <AgeIntro />
           <p>
-            I was born and raised in Montgomery County, Maryland. My upbringing
-            in and outside of Washington, DC as the son of Zambian immigrants,
-            and my experiences in Los Angeles and New York City are crucial to
-            my work as an artist and engineer.
+            I&rsquo;m Kondwani Phiri. I study aerospace/mechanical engineering
+            and cinematic arts at the University of Southern California (Fall
+            2026).
           </p>
           <p>
-            While I&apos;m not a professional just yet, my primary interests
-            include innovative product design, creative storytelling, and
-            human-centered engineering. I&apos;m interested in work and
-            projects that blend technical design with user experience, in
-            industries spanning entertainment, sports tech, medical
-            applications, and consumer hardware.
+            I&rsquo;m based between Los Angeles and the DC area, and I grew up
+            in Silver Spring, Maryland. Academically and professionally, my
+            main interests are in aerospace, manufacturing, product, and
+            architectural and civil aspects of engineering. I&rsquo;m open to
+            roles or internships in just about anywhere in the US.
           </p>
           <p>
-            This website is meant to be a launch pad for my ideas and showcase
-            my progress thus far. (And provide credentials for hiring
-            managers. Lol.)
+            Aside from my academic career as an engineer, I&rsquo;m also a
+            very avid and passionate filmmaker, writer, and photographer. My
+            personal photography work is displayed here, along with a few
+            personal writing projects. Anything for official submission or
+            professional work can be seen or read by contacting me directly.
           </p>
         </div>
 

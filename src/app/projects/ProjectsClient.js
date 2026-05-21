@@ -1,7 +1,10 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { CATEGORIES } from './data';
 
-/* Skeleton shimmer overlay shown until an iframe / media element loads. */
+/* ============================================================
+   Loading helpers (skeleton + fade-in for iframes/images)
+   ============================================================ */
 function MediaSkeleton({ label }) {
   return (
     <div className="aero-slide-skeleton" aria-hidden="true">
@@ -11,9 +14,9 @@ function MediaSkeleton({ label }) {
   );
 }
 
-/* Iframe wrapper that fades a skeleton out on load. */
 function LoadingIframe({ src, className, title, label, ...rest }) {
   const [ready, setReady] = useState(false);
+  useEffect(() => { setReady(false); }, [src]);
   return (
     <>
       {!ready && <MediaSkeleton label={label} />}
@@ -29,9 +32,9 @@ function LoadingIframe({ src, className, title, label, ...rest }) {
   );
 }
 
-/* Image wrapper that fades in on load. */
 function LoadingImage({ src, alt }) {
   const [ready, setReady] = useState(false);
+  useEffect(() => { setReady(false); }, [src]);
   return (
     <>
       {!ready && <MediaSkeleton label="loading image" />}
@@ -47,70 +50,21 @@ function LoadingImage({ src, alt }) {
 }
 
 /* ============================================================
-   Project data
-   ------------------------------------------------------------
-   Each project supports a flexible `media` object so the slide
-   viewer can render any of: pdf, youtube, video, image, link.
-
-     media: { type: 'pdf',     src: '/path.pdf' }
-     media: { type: 'youtube', embedId: 'dQw4w9WgXcQ' }
-     media: { type: 'video',   src: '/clip.mp4', poster: '/thumb.jpg' }
-     media: { type: 'image',   src: '/img.jpg', alt: 'caption' }
-     media: { type: 'link',    href: 'https://...', label: 'Open' }
-
-   `thumb` is the dock thumbnail (auto-falls-back to the icon).
-   ============================================================ */
-const projects = [
-  {
-    id: 1,
-    title: 'SHELLS — USC Screenplay Pitch',
-    meta: 'Screenplay · 2023',
-    year: '2023',
-    icon: '📜',
-    desc:
-      "Shells is a short film screenplay I wrote during my sophomore year of college. It follows Amara, a sharp but emotionally guarded teenager navigating grief, pressure, and identity in the wake of her sister's death. Set between school offices, flashbacks, and a haunting memory from a gang-related night out, the story unfolds as a raw conversation about loss, family dynamics, and defining yourself when everyone else has already tried to. Shells blends dark humor, dialogue, and tense realism into a quiet portrait of survival.",
-    media: { type: 'pdf', src: '/screenplays/SHELLS FINAL DRAFT.pdf' },
-  },
-  {
-    id: 2,
-    title: 'Summer Physics Intern — Georgetown University',
-    meta: 'Research · Summer 2024',
-    year: '2024',
-    icon: '🔬',
-    desc:
-      'At the Del Gado Group in the Department of Physics, I conducted independent research on amorphous materials and shear banding phenomena. The project centered on interpreting landmark data from foundational studies and comparing it with contemporary simulations. I analyzed discrepancies between expected and actual material behavior under varied shear rates using MATLAB and QtGrace for plotting. My findings contradicted previous results, suggesting factors such as experimental setup, temperature variance, or human error. The project explored engineering applications in product design, petrochemical processes, and civil infrastructure, and emphasized future potential in sustainability and environmental resilience.',
-    media: { type: 'pdf', src: '/Presented by Kondwani Phiri.pdf' },
-  },
-  {
-    id: 3,
-    title: 'Autonomous Toy Drone Design',
-    meta: 'CAD Design · 2024',
-    year: '2024',
-    icon: '✈️',
-    desc:
-      'Junior-year project for a computer-aided design course at USC. Collaborated on the full design of a toy drone, including CAD modeling, material selection, FEA stress testing, and motion analysis. Led part design and final model verification.',
-    media: { type: 'pdf', src: '/projects/AME 308 Final Project.pdf' },
-  },
-];
-
-/* ============================================================
-   Media renderer — switches on media.type
+   Media renderer
    ============================================================ */
 function MediaViewer({ media, title }) {
-  if (!media) return <MediaFallback label="No media attached" />;
-
+  if (!media) return <MediaSkeleton label="no media" />;
   switch (media.type) {
     case 'pdf':
       return (
         <LoadingIframe
           key={media.src}
-          src={`${media.src}#toolbar=0&navpanes=0&view=FitH`}
+          src={media.src.includes('#') ? media.src : `${media.src}${media.src.includes('?') ? '&' : '#'}toolbar=0&navpanes=0&view=FitH`}
           className="aero-slide-media aero-slide-media--pdf"
           title={title}
           label="loading pdf"
         />
       );
-
     case 'youtube':
       return (
         <LoadingIframe
@@ -123,7 +77,18 @@ function MediaViewer({ media, title }) {
           allowFullScreen
         />
       );
-
+    case 'instagram':
+      return (
+        <LoadingIframe
+          key={media.postId}
+          src={`https://www.instagram.com/p/${media.postId}/embed/`}
+          className="aero-slide-media aero-slide-media--instagram"
+          title={title}
+          label="loading instagram"
+          allowFullScreen
+          scrolling="no"
+        />
+      );
     case 'video':
       return (
         <video
@@ -136,10 +101,8 @@ function MediaViewer({ media, title }) {
           className="aero-slide-media aero-slide-media--video"
         />
       );
-
     case 'image':
       return <LoadingImage key={media.src} src={media.src} alt={media.alt || title} />;
-
     case 'link':
       return (
         <div className="aero-slide-link">
@@ -149,39 +112,26 @@ function MediaViewer({ media, title }) {
           </a>
         </div>
       );
-
     default:
-      return <MediaFallback label="Preview unavailable" />;
+      return <MediaSkeleton label="preview unavailable" />;
   }
 }
 
-function MediaFallback({ label }) {
-  return (
-    <div className="aero-slide-fallback">
-      <span>{label}</span>
-    </div>
-  );
-}
-
-/* ============================================================
-   Open-in-new-tab helper (only meaningful for file-based media)
-   ============================================================ */
 function externalHref(media) {
   if (!media) return null;
   if (media.type === 'pdf' || media.type === 'video' || media.type === 'image') return media.src;
   if (media.type === 'youtube') return `https://youtu.be/${media.embedId}`;
+  if (media.type === 'instagram') return `https://www.instagram.com/p/${media.postId}/`;
   if (media.type === 'link') return media.href;
   return null;
 }
 
-/* ============================================================
-   Tiny tag chip — shows next to the title bar (pdf/video/etc.)
-   ============================================================ */
 function MediaTag({ media }) {
   if (!media) return null;
   const map = {
     pdf: 'PDF',
     youtube: 'YouTube',
+    instagram: 'Instagram',
     video: 'Video',
     image: 'Image',
     link: 'Link',
@@ -189,166 +139,268 @@ function MediaTag({ media }) {
   return <span className="aero-slide-tag">{map[media.type] || media.type}</span>;
 }
 
+function formatYear(date) {
+  if (!date) return '';
+  return date.split('-')[0];
+}
+
 /* ============================================================
-   Main client component
+   Main client
    ============================================================ */
-export default function ProjectsClient() {
+export default function ProjectsClient({ projects = [] }) {
+  const [category, setCategory] = useState(CATEGORIES[0].id); // Film first
   const [active, setActive] = useState(0);
-  const total = projects.length;
+  const [fileIdx, setFileIdx] = useState(0);
 
-  const go = useCallback(
-    (delta) => {
-      setActive((prev) => (prev + delta + total) % total);
-    },
-    [total]
+  // Projects in the active category (preserve global chronological order)
+  const visible = useMemo(
+    () => projects.filter((p) => p.category === category),
+    [projects, category]
   );
+  const total = visible.length;
 
-  const jumpTo = useCallback((i) => setActive(i), []);
+  // If category changes or list shrinks, snap active back to first
+  useEffect(() => {
+    setActive(0);
+    setFileIdx(0);
+  }, [category]);
+
+  useEffect(() => {
+    if (active >= total) setActive(0);
+    setFileIdx(0);
+  }, [active, total]);
+
+  const project = visible[active] || null;
+  const mediaCount = project?.media?.length || 0;
+  const media = project?.media?.[fileIdx] || null;
+
+  const goProject = useCallback((delta) => {
+    if (total === 0) return;
+    setActive((i) => (i + delta + total) % total);
+    setFileIdx(0);
+  }, [total]);
+
+  const goFile = useCallback((delta) => {
+    if (mediaCount <= 1) return;
+    setFileIdx((i) => (i + delta + mediaCount) % mediaCount);
+  }, [mediaCount]);
+
+  const jumpTo = useCallback((i) => {
+    setActive(i);
+    setFileIdx(0);
+  }, []);
 
   // Keyboard navigation
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === 'ArrowLeft') go(-1);
-      else if (e.key === 'ArrowRight') go(1);
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'ArrowLeft')  goProject(-1);
+      else if (e.key === 'ArrowRight') goProject(1);
+      else if (e.key === 'ArrowUp')   { e.preventDefault(); goFile(-1); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); goFile(1); }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [go]);
+  }, [goProject, goFile]);
 
-  const project = projects[active];
-  const link = externalHref(project.media);
+  const link = externalHref(media);
 
   return (
     <section className="aero-projects">
-      {/* Page header */}
+      {/* Header */}
       <header className="aero-projects-head">
         <h1 className="aero-projects-title">projects</h1>
         <p className="aero-projects-sub">
-          A rolling reel of engineering, writing, and design work. Slide
-          through with the arrows, the dock, or your keyboard.
+          A rolling reel of writing, engineering, and design work — newest
+          first. Arrow keys or the dock to navigate; up/down flips between
+          files inside a project.
         </p>
       </header>
 
-      {/* Slider — stacked aero-glass windows */}
-      <div className="aero-slider" role="region" aria-roledescription="carousel" aria-label="Projects">
-        {/* Decorative stacked panels peeking behind, like the inspo */}
-        <div className="aero-slider-stack" aria-hidden="true">
-          <span className="aero-slider-stack-card aero-slider-stack-card--back" />
-          <span className="aero-slider-stack-card aero-slider-stack-card--mid" />
-        </div>
-
-        {/* Front window */}
-        <div className="aero-slider-window">
-          {/* OS-style chrome */}
-          <div className="aero-slider-chrome">
-            <span className="aero-slider-dots">
-              <span className="aero-slider-dot aero-slider-dot--r" />
-              <span className="aero-slider-dot aero-slider-dot--y" />
-              <span className="aero-slider-dot aero-slider-dot--g" />
-            </span>
-            <span className="aero-slider-url" title={project.title}>
-              <span className="aero-slider-url-lock">⌬</span>
-              kondwaniphiri.com / projects / {String(project.id).padStart(2, '0')}
-            </span>
-            <span className="aero-slider-counter">
-              {String(active + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
-            </span>
-          </div>
-
-          {/* Media stage */}
-          <div className="aero-slider-stage">
-            <MediaViewer media={project.media} title={project.title} />
-
-            {/* Side arrows */}
+      {/* Category tabs */}
+      <div className="aero-projects-tabs" role="tablist" aria-label="Project category">
+        {CATEGORIES.map((c) => {
+          const count = projects.filter((p) => p.category === c.id).length;
+          const isActive = c.id === category;
+          return (
             <button
+              key={c.id}
               type="button"
-              className="aero-slider-arrow aero-slider-arrow--prev"
-              onClick={() => go(-1)}
-              aria-label="Previous project"
+              role="tab"
+              aria-selected={isActive}
+              data-active={isActive}
+              className="aero-projects-tab"
+              onClick={() => setCategory(c.id)}
             >
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+              {c.label}
+              <span className="aero-projects-tab-count">{count}</span>
             </button>
-            <button
-              type="button"
-              className="aero-slider-arrow aero-slider-arrow--next"
-              onClick={() => go(1)}
-              aria-label="Next project"
-            >
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          </div>
-        </div>
+          );
+        })}
       </div>
 
-      {/* Description card */}
-      <article className="aero-slider-info">
-        <div className="aero-slider-info-head">
-          <div>
-            <h2 className="aero-slider-info-title">
-              <span className="aero-slider-info-num">
-                {String(active + 1).padStart(2, '0')}
-              </span>
-              {project.title}
-              <MediaTag media={project.media} />
-            </h2>
-            <p className="aero-slider-info-meta">{project.meta}</p>
+      {/* Empty state */}
+      {total === 0 && (
+        <div className="aero-projects-empty">
+          <p>No projects in this category yet.</p>
+        </div>
+      )}
+
+      {/* Slider */}
+      {project && (
+        <>
+          <div className="aero-slider" role="region" aria-roledescription="carousel">
+            <div className="aero-slider-stack" aria-hidden="true">
+              <span className="aero-slider-stack-card aero-slider-stack-card--back" />
+              <span className="aero-slider-stack-card aero-slider-stack-card--mid" />
+            </div>
+
+            <div className="aero-slider-window">
+              <div className="aero-slider-chrome">
+                <span className="aero-slider-dots">
+                  <span className="aero-slider-dot aero-slider-dot--r" />
+                  <span className="aero-slider-dot aero-slider-dot--y" />
+                  <span className="aero-slider-dot aero-slider-dot--g" />
+                </span>
+                <span className="aero-slider-url" title={project.title}>
+                  <span className="aero-slider-url-lock">⌬</span>
+                  kondwaniphiri.com / projects / {category} / {String(active + 1).padStart(2, '0')}
+                </span>
+                <span className="aero-slider-counter">
+                  {String(active + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+                </span>
+              </div>
+
+              <div className="aero-slider-stage">
+                <MediaViewer media={media} title={project.title} />
+
+                <button
+                  type="button"
+                  className="aero-slider-arrow aero-slider-arrow--prev"
+                  onClick={() => goProject(-1)}
+                  aria-label="Previous project"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  className="aero-slider-arrow aero-slider-arrow--next"
+                  onClick={() => goProject(1)}
+                  aria-label="Next project"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* In-project file strip — only if more than one media item */}
+              {mediaCount > 1 && (
+                <nav className="aero-slider-files" aria-label="Files in this project">
+                  <button
+                    type="button"
+                    className="aero-slider-files-arrow"
+                    onClick={() => goFile(-1)}
+                    aria-label="Previous file"
+                  >‹</button>
+                  <ul className="aero-slider-files-list">
+                    {project.media.map((m, i) => (
+                      <li key={`${m.src || m.embedId || i}`}>
+                        <button
+                          type="button"
+                          className={`aero-slider-files-item ${i === fileIdx ? 'is-active' : ''}`}
+                          onClick={() => setFileIdx(i)}
+                          aria-current={i === fileIdx ? 'true' : 'false'}
+                        >
+                          <span className="aero-slider-files-num">
+                            {String(i + 1).padStart(2, '0')}
+                          </span>
+                          <span className="aero-slider-files-label">
+                            {m.label || `file ${i + 1}`}
+                          </span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    type="button"
+                    className="aero-slider-files-arrow"
+                    onClick={() => goFile(1)}
+                    aria-label="Next file"
+                  >›</button>
+                </nav>
+              )}
+            </div>
           </div>
 
-          {link && (
-            <a
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="aero-slider-info-open"
-            >
-              Open in new tab ↗
-            </a>
-          )}
-        </div>
-        <p className="aero-slider-info-desc">{project.desc}</p>
-      </article>
+          {/* Info card */}
+          <article className="aero-slider-info">
+            <div className="aero-slider-info-head">
+              <div>
+                <h2 className="aero-slider-info-title">
+                  <span className="aero-slider-info-num">
+                    {String(active + 1).padStart(2, '0')}
+                  </span>
+                  {project.title}
+                  <MediaTag media={media} />
+                </h2>
+                <p className="aero-slider-info-meta">
+                  {[project.subtitle, formatYear(project.date)].filter(Boolean).join(' · ')}
+                  {mediaCount > 1 && ` · ${mediaCount} files`}
+                </p>
+              </div>
 
-      {/* Floating dock */}
-      <nav className="aero-slider-dock" aria-label="Project navigation">
-        <button
-          type="button"
-          className="aero-slider-dock-arrow"
-          onClick={() => go(-1)}
-          aria-label="Previous project"
-        >
-          ‹
-        </button>
+              {link && (
+                <a href={link} target="_blank" rel="noopener noreferrer" className="aero-slider-info-open">
+                  Open in new tab ↗
+                </a>
+              )}
+            </div>
+            {project.summary && (
+              <p className="aero-slider-info-desc">{project.summary}</p>
+            )}
+            {!project.summary && project.driveFolderId && (
+              <p className="aero-slider-info-desc aero-slider-info-desc--muted">
+                Description coming soon.
+              </p>
+            )}
+          </article>
 
-        <ul className="aero-slider-dock-list">
-          {projects.map((p, i) => (
-            <li key={p.id}>
-              <button
-                type="button"
-                className={`aero-slider-dock-item ${i === active ? 'is-active' : ''}`}
-                onClick={() => jumpTo(i)}
-                aria-label={`Go to project ${i + 1}: ${p.title}`}
-                aria-current={i === active ? 'true' : 'false'}
-              >
-                <span className="aero-slider-dock-icon">{p.icon}</span>
-                <span className="aero-slider-dock-label">{p.title}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-
-        <button
-          type="button"
-          className="aero-slider-dock-arrow"
-          onClick={() => go(1)}
-          aria-label="Next project"
-        >
-          ›
-        </button>
-      </nav>
+          {/* Floating dock — only projects in active category */}
+          <nav className="aero-slider-dock" aria-label="Project navigation">
+            <button
+              type="button"
+              className="aero-slider-dock-arrow"
+              onClick={() => goProject(-1)}
+              aria-label="Previous project"
+            >‹</button>
+            <ul className="aero-slider-dock-list">
+              {visible.map((p, i) => (
+                <li key={p.id}>
+                  <button
+                    type="button"
+                    className={`aero-slider-dock-item ${i === active ? 'is-active' : ''}`}
+                    onClick={() => jumpTo(i)}
+                    aria-label={`Go to project ${i + 1}: ${p.title}`}
+                    aria-current={i === active ? 'true' : 'false'}
+                  >
+                    <span className="aero-slider-dock-icon">{p.icon}</span>
+                    <span className="aero-slider-dock-label">{p.title}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <button
+              type="button"
+              className="aero-slider-dock-arrow"
+              onClick={() => goProject(1)}
+              aria-label="Next project"
+            >›</button>
+          </nav>
+        </>
+      )}
     </section>
   );
 }

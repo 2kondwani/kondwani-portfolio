@@ -50,17 +50,6 @@ const experiences = [
 
 const involvements = [
   {
-    org: "National Society of Black Engineers",
-    role: "Co-Founder & Member",
-    location: "Los Angeles, CA",
-    date: "Sep 2022 – Present",
-    description: [
-      "Community service events for the local South Los Angeles area, including fundraisers, youth STEM engagement, and STEM education for lower-income neighborhoods.",
-      "Created a NSBE Jr. chapter to Alma Mater Middle School in White Oak, Maryland, and used said program to work in conjunction with other STEM-based inclusivity work while in high school, including Zoom-based collaborative science funds during the pandemic.",
-    ],
-    logo: "/nsbelogo.png",
-  },
-  {
     org: "USC BlackGen Capital",
     role: "Vice President of Public Relations",
     location: "Los Angeles, CA",
@@ -71,6 +60,26 @@ const involvements = [
       "Oversaw all PR, events, and social strategy across **5+ partner universities**, driving chapter growth **by 40%**. The club recently reached an all-time applicant record of **100 members** in the only California chapter.",
     ],
     logo: "/blackgenlogo.png",
+  },
+  {
+    org: "National Society of Black Engineers",
+    role: "Charter Member",
+    location: "Los Angeles, CA",
+    date: "Sep 2022 – Present",
+    description: [
+      "Community service events for the local South Los Angeles area, including fundraisers, youth STEM engagement, and STEM education for lower-income neighborhoods.",
+      "Created a NSBE Jr. chapter to Alma Mater Middle School in White Oak, Maryland, and used said program to work in conjunction with other STEM-based inclusivity work while in high school, including Zoom-based collaborative science funds during the pandemic.",
+    ],
+    logo: "/nsbelogo.png",
+  },
+  {
+    org: "African-American Cinema Society at USC",
+    role: "Member",
+    location: "Los Angeles, CA",
+    date: "Sep 2024 – Present",
+    description:
+      "Member of an organization dedicated to opening networking opportunities, providing community, and raising awareness around issues pertaining to African Americans in the film industry. The African-American Cinema Society works to highlight and promote art and artists invested in showcasing complex, sophisticated representations of blackness and the black diaspora. Founded in **1991 by USC alumnus John Singleton**.",
+    logo: "/aacslogo.png",
   },
 ];
 
