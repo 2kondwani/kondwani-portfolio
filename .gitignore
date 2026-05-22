@@ -48,3 +48,6 @@ src/app.zip
 
 # optional site scrape/cache (uncomment if you don't want these tracked)
 saveweb2zip-com-*/
+
+# local dev journal store (production uses Vercel KV)
+/data/journal-dev.json

@@ -171,11 +171,13 @@ export async function getDriveImages(folderId, depth = 0, seen = new Set()) {
     if (imageFiles.length === 0 && folder.files.length > 0) {
       imageFiles = folder.files;
     }
+    // Tight thumb (matches actual rendered size in the contact sheet —
+    // halves bytes vs. w800) plus a larger full-size for the modal.
     const direct = imageFiles.map((f) => ({
       id: f.id,
       name: f.name,
-      thumb: `https://drive.google.com/thumbnail?id=${f.id}&sz=w800`,
-      full: `https://drive.google.com/thumbnail?id=${f.id}&sz=w2400`,
+      thumb: `https://drive.google.com/thumbnail?id=${f.id}&sz=w400`,
+      full: `https://drive.google.com/thumbnail?id=${f.id}&sz=w2000`,
     }));
 
     // Recurse into subfolders

@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import AgeIntro from "./AgeIntro";
 
 export default function Home() {
   return (

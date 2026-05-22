@@ -1,6 +1,32 @@
 "use client";
 import { useState, useEffect } from "react";
 
+/* Per-image fade-in. Shows a subtle shimmer until the image decodes,
+   then fades the photo in. Hides the broken-icon + alt-text placeholder
+   that browsers paint while a remote URL is still loading. */
+function FrameImage({ src, alt, eager }) {
+  const [ready, setReady] = useState(false);
+  useEffect(() => { setReady(false); }, [src]);
+  return (
+    <>
+      {!ready && <span className="aero-frame-skel" aria-hidden="true" />}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt=""
+        title={alt}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+        fetchpriority={eager ? 'high' : 'low'}
+        draggable="false"
+        onLoad={() => setReady(true)}
+        onError={() => setReady(true)}
+        className={`aero-frame-img ${ready ? 'is-ready' : ''}`}
+      />
+    </>
+  );
+}
+
 /* Fisher–Yates shuffle (uniform distribution). Returns a new array. */
 function shuffle(arr) {
   const a = [...arr];
@@ -162,8 +188,7 @@ export default function GalleryPage() {
                   KODAK 400TX
                 </span>
                 <span className="aero-frame-photo">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={img.thumb} alt={img.name} loading="lazy" />
+                  <FrameImage src={img.thumb} alt={img.name} eager={i < 12} />
                 </span>
                 <span className="aero-frame-foot" aria-hidden="true">
                   <span className="aero-frame-tri">▲</span>
@@ -188,8 +213,7 @@ export default function GalleryPage() {
                 onClick={() => setModalImg(img)}
                 aria-label={`Open ${img.name}`}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={img.thumb} alt={img.name} loading="lazy" />
+                <FrameImage src={img.thumb} alt={img.name} eager={i < 12} />
               </button>
             ))}
           </div>

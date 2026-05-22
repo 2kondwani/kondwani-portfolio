@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { currently, journal, interests } from './data';
+import { currently, interests } from './data';
+import JournalSection from './JournalSection';
 
 /* ============================================================
    Helpers
@@ -17,15 +18,6 @@ function toSpotifyEmbed(url) {
   } catch {
     return null;
   }
-}
-
-/** Format ISO date → "MAY 20 · TUE 2026". */
-function formatDate(iso) {
-  const d = new Date(iso + 'T00:00:00');
-  const month = d.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-  const day = String(d.getDate()).padStart(2, '0');
-  const weekday = d.toLocaleString('en-US', { weekday: 'short' }).toUpperCase();
-  return { month, day, weekday, year: d.getFullYear() };
 }
 
 function formatWatched(iso) {
@@ -412,69 +404,12 @@ function Mp3Player({ item }) {
   );
 }
 
-/* ============================================================
-   Journal entry — collapsible
-   ============================================================ */
-function JournalEntry({ entry, defaultOpen = false }) {
-  const [open, setOpen] = useState(defaultOpen);
-  const { month, day, weekday, year } = formatDate(entry.date);
-  const paras = paragraphs(entry.body);
-  const preview = paras[0];
-  const rest = paras.slice(1);
-  const hasMore = rest.length > 0;
-
-  return (
-    <article className={`aero-more-entry ${open ? 'is-open' : ''}`}>
-      <aside className="aero-more-entry-date" aria-hidden="true">
-        <span className="aero-more-entry-month">{month}</span>
-        <span className="aero-more-entry-day">{day}</span>
-        <span className="aero-more-entry-weekday">
-          {weekday} {year}
-        </span>
-      </aside>
-
-      <div className="aero-more-entry-body">
-        <header className="aero-more-entry-head">
-          <h3 className="aero-more-entry-title">{entry.title}</h3>
-          {entry.tags?.length > 0 && (
-            <ul className="aero-more-entry-tags">
-              {entry.tags.map((t) => (
-                <li key={t}>#{t}</li>
-              ))}
-            </ul>
-          )}
-        </header>
-
-        <div className="aero-more-entry-text">
-          <p>{preview}</p>
-          {hasMore && (
-            <div className={`aero-more-entry-more ${open ? 'is-open' : ''}`} aria-hidden={!open}>
-              {rest.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {hasMore && (
-          <button
-            type="button"
-            className="aero-more-entry-toggle"
-            onClick={() => setOpen((o) => !o)}
-            aria-expanded={open}
-          >
-            {open ? '↑ collapse' : '↓ read more'}
-          </button>
-        )}
-      </div>
-    </article>
-  );
-}
+/* Journal entry rendering + admin editor now lives in JournalSection.js */
 
 /* ============================================================
    Page
    ============================================================ */
-export default function MoreClient({ reviews = [] }) {
+export default function MoreClient({ reviews = [], initialJournal = [] }) {
   return (
     <section className="aero-more">
       {/* Scattered decorative stickers */}
@@ -507,22 +442,8 @@ export default function MoreClient({ reviews = [] }) {
         </div>
       </section>
 
-      {/* ============ Journal ============ */}
-      <section className="aero-more-journal" aria-labelledby="journal-heading">
-        <div className="aero-more-section-head">
-          <h2 id="journal-heading" className="aero-more-section-title">notebook</h2>
-          <span className="aero-more-section-rule" />
-          <span className="aero-more-section-count">
-            {journal.length} {journal.length === 1 ? 'entry' : 'entries'}
-          </span>
-        </div>
-
-        <div className="aero-more-entries">
-          {journal.map((entry, i) => (
-            <JournalEntry key={entry.id} entry={entry} defaultOpen={i === 0} />
-          ))}
-        </div>
-      </section>
+      {/* ============ Journal (admin-editable) ============ */}
+      <JournalSection initialEntries={initialJournal} />
 
       {/* ============ Interests ============ */}
       <section className="aero-more-interests" aria-labelledby="interests-heading">

@@ -29,8 +29,10 @@ export const currently = {
 };
 
 /* ------- journal ------- */
-/* newest first. add a new entry by prepending an object. */
-export const journal = [
+/* Seed data — used to bootstrap the KV store on first request.
+   After the editor is set up, ongoing edits live in the database;
+   you don't need to edit this list manually anymore. */
+export const SEED_JOURNAL = [
   {
     id: "2026-05-20",
     date: "2026-05-20",
