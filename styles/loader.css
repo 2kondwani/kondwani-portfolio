@@ -1,0 +1,356 @@
+:root {
+  --paper: #f1ebe0;        /* off-white beige backdrop for the whole site */
+  --card: #f8f4ec;
+  --line: rgb(27 25 21 / 0.12);
+  --ink: #1b1915;
+  --ink-soft: #5a554c;
+  --accent: #9b3d22;
+
+  --serif: "EB Garamond", Garamond, "Times New Roman", serif;
+  --sans: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* How a frame looks before it "develops": overexposed and washed out. */
+  --undeveloped: brightness(1.55) saturate(0.35) contrast(0.85);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+html.is-landing body {
+  overflow: hidden;
+}
+
+/* ---------- Stage ---------- */
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  overflow: hidden;
+  background: var(--paper);
+  transition: background-color 500ms ease;
+}
+
+html.no-landing .loader {
+  display: none;
+}
+
+.loader.is-enterable {
+  cursor: pointer;
+}
+
+/* Leaving: the paper turns clear so the About page shows through as the tiles fold away. */
+.loader.is-leaving {
+  background-color: transparent;
+  pointer-events: none;
+  cursor: auto;
+}
+
+/* Film grain over everything, very faint. */
+.loader::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.09;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  transition: opacity 600ms ease;
+}
+
+.loader.is-leaving::after {
+  opacity: 0;
+}
+
+/* ---------- Mosaic ---------- */
+
+.mosaic {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+/* Each tile is positioned by loader.js. Tiles wipe in like a shutter:
+   even columns rise from the bottom, odd columns drop from the top. */
+.tile {
+  position: absolute;
+  overflow: hidden;
+  background: #e6dfd2;
+  clip-path: inset(100% 0 0 0);
+  transition:
+    clip-path 1000ms var(--ease-out),
+    background-color 800ms ease;
+}
+
+.tile[data-dir="down"] {
+  clip-path: inset(0 0 100% 0);
+}
+
+.tile.is-in {
+  clip-path: inset(0);
+}
+
+/* On the way out they fold shut the opposite way, rippling out from the center. */
+.loader.is-leaving .tile {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 650ms var(--ease-in) var(--out, 0ms);
+}
+
+.loader.is-leaving .tile[data-dir="down"] {
+  clip-path: inset(100% 0 0 0);
+}
+
+/* A photo that never loaded fades back into the paper. */
+.tile.is-empty {
+  background-color: var(--paper);
+}
+
+/* Photos "develop" inside their frame: overexposed and oversized, then settling. */
+.tile__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  opacity: 0;
+  clip-path: inset(0);
+  transform: scale(1.16);
+  filter: var(--undeveloped);
+  transition:
+    opacity 900ms ease-out,
+    transform 1600ms var(--ease-out),
+    filter 1300ms ease-out,
+    clip-path 1100ms var(--ease-out);
+}
+
+.tile.is-in .tile__img.is-loaded {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* A fresh frame swapping into a tile that's already showing. */
+.tile.is-in .tile__img.is-loaded.is-incoming {
+  clip-path: inset(100% 0 0 0);
+  transform: scale(1.16);
+  filter: var(--undeveloped);
+}
+
+.tile.is-in[data-dir="down"] .tile__img.is-loaded.is-incoming {
+  clip-path: inset(0 0 100% 0);
+}
+
+/* ---------- Vignette: a soft shadow pool that lifts the polaroid off the mosaic ---------- */
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 50% 58% at 50% 50%, rgb(12 10 8 / 0.42) 0%, rgb(12 10 8 / 0.16) 60%, rgb(12 10 8 / 0) 100%),
+    rgb(12 10 8 / 0.08);
+  opacity: 0;
+  transition: opacity 1400ms ease;
+}
+
+.loader.is-polaroid .vignette {
+  opacity: 1;
+}
+
+.loader.is-leaving .vignette {
+  opacity: 0;
+  transition-duration: 500ms;
+}
+
+/* ---------- Polaroid ---------- */
+
+/* Built to Instax Mini proportions: a 54×86 card around a 46×62 photo,
+   with the thick strip at the bottom where the caption is written.
+   --pw (card width) sizes everything inside it. */
+.polaroid {
+  --pw: min(70vh * 0.628, 100vw - 64px, 440px);
+  width: var(--pw);
+  aspect-ratio: 54 / 86;
+  padding: calc(var(--pw) * 0.074) calc(var(--pw) * 0.074) 0;
+  display: flex;
+  flex-direction: column;
+  background: #fbfaf5;
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.2),
+    0 30px 60px -14px rgb(0 0 0 / 0.6);
+}
+
+/* On the landing it drops onto the center of the mosaic. --tilt is randomized per visit. */
+.loader .polaroid {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(0deg) scale(1.12);
+  transition:
+    opacity 600ms ease,
+    transform 1400ms var(--ease-out);
+}
+
+.loader .polaroid.is-shown {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(var(--tilt, -2.5deg));
+}
+
+/* Like a real Instax, the photo starts as a pale blank and develops. */
+.polaroid__photo {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 46 / 62;
+  background: #d8d6cf;
+}
+
+.polaroid__img {
+  position: absolute;
+  max-width: none;  /* sized larger than its window on purpose, to crop the Instax border */
+  user-select: none;
+  opacity: 0;
+  filter: brightness(2) saturate(0) contrast(0.55);
+  transition:
+    opacity 1400ms ease,
+    filter 3400ms ease-out;
+}
+
+.polaroid.is-shown .polaroid__img.is-loaded {
+  opacity: 1;
+  filter: none;
+}
+
+.polaroid__caption {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4% calc(var(--pw) * 0.02);
+  text-align: center;
+  color: var(--ink);
+}
+
+.polaroid__name {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: calc(var(--pw) * 0.108);
+  line-height: 1.05;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  padding: 0 0.1em;
+}
+
+/* The caption is written once the card lands. Hidden only when JS runs, so it's never lost. */
+.js .polaroid__name {
+  -webkit-mask-image: linear-gradient(90deg, #000 45%, transparent 55%);
+          mask-image: linear-gradient(90deg, #000 45%, transparent 55%);
+  -webkit-mask-size: 220% 100%;
+          mask-size: 220% 100%;
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-position: 100% 0;
+          mask-position: 100% 0;
+  transition:
+    -webkit-mask-position 1300ms var(--ease-in-out),
+    mask-position 1300ms var(--ease-in-out);
+}
+
+.polaroid.is-written .polaroid__name {
+  -webkit-mask-position: 0 0;
+          mask-position: 0 0;
+}
+
+/* ---------- Progress and enter ---------- */
+
+.progress,
+.enter {
+  position: absolute;
+  bottom: 16px;
+  z-index: 2;
+  padding: 8px 12px 7px;
+  background: var(--paper);
+  color: var(--ink);
+  font: 500 11px/1 var(--sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition:
+    opacity 600ms ease,
+    transform 600ms var(--ease-out);
+}
+
+.progress {
+  left: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.loader.is-started .progress {
+  opacity: 1;
+}
+
+.loader.is-ready .progress,
+.loader.is-enterable .progress {
+  opacity: 0;
+}
+
+.enter {
+  left: 50%;
+  bottom: 24px;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  pointer-events: none;
+  transform: translate(-50%, 8px);
+}
+
+.loader.is-enterable .enter {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+.enter:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.loader.is-leaving .progress,
+.loader.is-leaving .enter {
+  opacity: 0;
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .tile,
+  .tile__img,
+  .vignette,
+  .polaroid,
+  .polaroid__img,
+  .polaroid__name,
+  .progress,
+  .enter {
+    transition: none !important;
+  }
+}

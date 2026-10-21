@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kondwani Phiri</title>
+  <meta name="description" content="Los Angeles and DC based Mechanical Engineer &amp; Filmmaker, USC Alumni">
+  <meta name="theme-color" content="#f1ebe0">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="icon.png" type="image/png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <script>
+    // The landing plays on a fresh visit or a link to About; deep links to other tabs skip it.
+    (function () {
+      var root = document.documentElement;
+      var tab = location.hash.slice(1);
+      root.classList.add('js');
+      root.classList.add(!tab || tab === 'about' ? 'is-landing' : 'no-landing');
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://drive.google.com">
+  <link rel="preconnect" href="https://lh3.googleusercontent.com">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:wght@400;500&family=Courier+Prime&family=Alex+Brush&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/loader.css">
+  <link rel="stylesheet" href="styles/site.css">
+  <link rel="stylesheet" href="styles/wii.css">
+</head>
+<body>
+  <!-- ============ Landing ============ -->
+  <div class="loader" id="loader">
+    <div class="mosaic" id="mosaic" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <figure class="polaroid" id="polaroid">
+      <div class="polaroid__photo" id="polaroid-photo"></div>
+      <figcaption class="polaroid__caption">
+        <p class="polaroid__name">Kondwani Phiri</p>
+      </figcaption>
+    </figure>
+
+    <div class="progress" aria-hidden="true">Loading <span id="progress-num">000</span>%</div>
+    <button class="enter" id="enter" type="button">Click to enter</button>
+  </div>
+
+  <!-- ============ Site ============ -->
+  <div class="site" id="site">
+    <header class="topbar">
+      <div class="topbar__inner">
+        <a class="wordmark" href="#about">Kondwani Phiri</a>
+        <nav class="tabs" id="tabs" aria-label="Sections">
+          <a class="tabs__link" href="#about" data-tab="about">About</a>
+          <a class="tabs__link" href="#engineering" data-tab="engineering">Engineering</a>
+          <a class="tabs__link" href="#film" data-tab="film">Film</a>
+          <a class="tabs__link" href="#gallery" data-tab="gallery">Gallery</a>
+          <a class="tabs__link" href="#extra" data-tab="extra">Extra</a>
+          <span class="tabs__indicator" id="tabs-indicator" aria-hidden="true"></span>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main" id="main" tabindex="-1">
+
+      <!-- ---------- About ---------- -->
+      <section class="view view--about" id="view-about" data-view="about" aria-labelledby="about-title">
+        <div class="about-hero">
+          <div class="about-hero__photo" id="photo-slot"></div>
+
+          <!-- Bio and resume share one column, so they read straight down. -->
+          <div class="about-hero__main">
+            <div class="about-hero__bio reveal" style="--i: 1">
+              <p class="eyebrow">About</p>
+              <h1 class="sr-only" id="about-title">Kondwani Phiri</h1>
+              <p class="lead">
+                Hi! I’m Kondwani, I’m a Mechanical Engineering &amp; Cinematic Arts student at the
+                <a class="mention" href="https://www.usc.edu/" target="_blank" rel="noopener">
+                  <span class="logo logo--inline logo--crop" aria-hidden="true"><img src="images/usclogo.png" alt=""></span>University of Southern California</a>.
+              </p>
+              <p>
+                I’ve been interested in both filmmaking and engineering since I was young. For engineering
+                roles, I’m really interested in product design, aerospace, consumer hardware, and biotechnology.
+                In cinema, I primarily write, direct, and edit, and I’m also actively seeking opportunities to
+                grow, either in post-production or with camera teams (to develop as a cinematographer/DP).
+              </p>
+              <p>
+                As a hobby, I’ve grown to love film photography, with all my personal work on here. Anyone
+                interested in collaborating or a role that might be a fit can feel free to contact me directly.
+              </p>
+              <p>
+                I grew up in Silver Spring, Maryland, just outside of Washington, DC. I live between there and
+                Los Angeles for school, and have deep ties to New York City because I spent a portion of my
+                childhood there also. Long story short, if you need me in the DMV, LA, or New York, I can make
+                it work. As a matter of fact, just about anywhere works.
+              </p>
+
+              <div class="bio-meta">
+                <ul class="flags" aria-label="Heritage">
+                  <li class="flag" tabindex="0" data-tip="United States"><img src="images/usflag.png" alt="United States flag"></li>
+                  <li class="flag" tabindex="0" data-tip="Zambia"><img src="images/zambiaflag.png" alt="Zambia flag"></li>
+                </ul>
+                <ul class="socials" aria-label="Elsewhere">
+                  <li>
+                    <a class="social" href="https://instagram.com/kondwaniphiris" target="_blank" rel="noopener" data-tip="Instagram" aria-label="Instagram">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="social" href="https://linkedin.com/in/kondwaniphiri7" target="_blank" rel="noopener" data-tip="LinkedIn" aria-label="LinkedIn">
+                      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="6.5" cy="6.6" r="1.9"/><rect x="4.9" y="9.6" width="3.2" height="9.4" rx=".4"/><path d="M10.6 9.6h3v1.4c.5-.9 1.7-1.6 3.1-1.6 2.5 0 3.5 1.5 3.5 4.2V19h-3.2v-4.8c0-1.2-.4-2-1.5-2s-1.7.8-1.7 2V19h-3.2z"/></svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="social" href="mailto:kondwanihp@outlook.com" data-tip="kondwanihp@outlook.com" aria-label="Email">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.8 6.5 8.2 6.3 8.2-6.3"/></svg>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="resume">
+              <!-- Education -->
+              <section class="resume__section reveal" style="--i: 2" aria-labelledby="education-title">
+                <h2 class="resume__label" id="education-title">Education</h2>
+
+                <article class="entry">
+                  <a class="logo logo--crop" href="https://www.usc.edu/" target="_blank" rel="noopener" data-tip="usc.edu ↗" aria-label="University of Southern California website">
+                    <img src="images/usclogo.png" alt="">
+                  </a>
+                  <div class="entry__body">
+                    <div class="entry__head">
+                      <h3 class="entry__title">University of Southern California</h3>
+                      <p class="entry__date">2026</p>
+                    </div>
+                    <p class="entry__org">B.S. Mechanical Engineering (Design Emphasis), Minor in Cinematic Arts <span>· Viterbi School of Engineering</span></p>
+                  </div>
+                </article>
+
+                <article class="entry">
+                  <a class="logo" href="https://www2.montgomeryschoolsmd.org/schools/blakehs/" target="_blank" rel="noopener" data-tip="Blake High School ↗" aria-label="James Hubert Blake High School website">
+                    <img src="images/blakelogo.png" alt="">
+                  </a>
+                  <div class="entry__body">
+                    <div class="entry__head">
+                      <h3 class="entry__title">James Hubert Blake High School</h3>
+                      <p class="entry__date">2018 – 2022</p>
+                    </div>
+                    <p class="entry__org">High School Diploma <span>· Colesville, MD</span></p>
+                  </div>
+                </article>
+              </section>
+
+              <!-- Experience -->
+              <section class="resume__section reveal" style="--i: 3" aria-labelledby="experience-title">
+                <h2 class="resume__label" id="experience-title">Experience</h2>
+
+                <article class="entry">
+                  <a class="logo logo--fill" href="https://about.meta.com/" target="_blank" rel="noopener" data-tip="meta.com ↗" aria-label="Meta website">
+                    <img src="images/metalogo.png" alt="">
+                  </a>
+                  <div class="entry__body">
+                    <div class="entry__head">
+                      <h3 class="entry__title">Technical Producer / Research Intern</h3>
+                      <p class="entry__date">May 2025 – Present</p>
+                    </div>
+                    <p class="entry__org">Meta via USC <span>· Los Angeles, CA</span></p>
+                    <ul class="entry__points">
+                      <li>Conducted usability testing and QA for AI-based mental health software on Meta Quest, improving accessibility and performance for diverse user groups.</li>
+                      <li>Focused product design testing and analysis using META for education software, using NX software for CADing, and various programs to improve design systems, such as Python, JavaScript, etc.</li>
+                      <li>Documented testing procedures and synthesized feedback across Google Docs, Notion, and Slack, streamlining workflows for a 10+ person research team.</li>
+                      <li>Ensured compliance with accessibility standards (WCAG), contributing to a 15% improvement in user experience ratings during trials.</li>
+                    </ul>
+                  </div>
+                </article>
+
+                <article class="entry">
+                  <a class="logo logo--fill" href="https://physics.georgetown.edu/" target="_blank" rel="noopener" data-tip="Georgetown Physics ↗" aria-label="Georgetown University Department of Physics website">
+                    <img src="images/GeorgetownLogo.png" alt="">
+                  </a>
+                  <div class="entry__body">
+                    <div class="entry__head">
+                      <h3 class="entry__title">Physics Research Intern</h3>
+                      <p class="entry__date">Jun – Aug 2024</p>
+                    </div>
+                    <p class="entry__org">Georgetown University (Department of Physics – DelGadoLab) <span>· Washington, DC</span></p>
+                    <ul class="entry__points">
+                      <li>Summer research assistant at Georgetown University under the provost’s distinguished professor Emanuela Del Gado.</li>
+                      <li>Performed independent analytical research and breakdown of stress and strain in amorphous materials, including breakage point, yielding, and failure of soft materials, and conditions under gel and shear speed. Analysis was done using QtGrace and MATLAB; over 30 samples were completed, varying materials from carbon to be compared against crystalline Aluminum to low-grade diamond, and gold.</li>
+                      <li>Analyzed and presented the uses and applications, including product design, structural analysis, building science, and urban planning, with a focus on shear and strain breakage effects on said products and industries.</li>
+                    </ul>
+                  </div>
+                </article>
+
+                <article class="entry">
+                  <a class="logo" href="https://www.nih.gov/" target="_blank" rel="noopener" data-tip="nih.gov ↗" aria-label="National Institutes of Health website">
+                    <img src="images/NIHlogo.png" alt="">
+                  </a>
+                  <div class="entry__body">
+                    <div class="entry__head">
+                      <h3 class="entry__title">Summer OITE Intern</h3>
+                      <p class="entry__date">Jun – Aug 2022</p>
+                    </div>
+                    <p class="entry__org">National Institutes of Health <span>· Bethesda, MD</span></p>
+                    <ul class="entry__points">
+                      <li>Participated in the NIH Summer Internship Program, gaining hands-on research experience and professional development in biomedical research.</li>
+                    </ul>
+                  </div>
+                </article>
+              </section>
+
+              <!-- Involvements -->
+              <section class="resume__section reveal" style="--i: 4" aria-labelledby="involvements-title">
+                <h2 class="resume__label" id="involvements-title">Involvements</h2>
+
+                <article class="entry">
+                  <span class="logo logo--crop" tabindex="0" data-tip="BlackGen Capital">
+                    <img src="images/blackgenlogo.png" alt="">
+                  </span>
+                  <div class="entry__body">
+                    <div class="entry__head">
+                      <h3 class="entry__title">Vice President of Public Relations</h3>
+                      <p class="entry__date">Sep 2022 – May 2025</p>
+                    </div>
+                    <p class="entry__org">USC BlackGen Capital <span>· Los Angeles, CA</span></p>
+                    <ul class="entry__points">
+                      <li>BlackGen Capital: a student-run investment fund managing over $100,000 in assets with backing from Warburg Pincus, JP Morgan, and others.</li>
+                      <li>Led a case team to 1st place in two stock pitch competitions, which included presenting company overviews, market projections, and DCF analyses.</li>
+                      <li>Oversaw all PR, events, and social strategy across 5+ partner universities, driving chapter growth by 40%. The club recently reached an all-time applicant record of 100 members in the only California chapter.</li>
+                    </ul>
+                  </div>
+                </article>
+
+                <article class="entry">
+                  <a class="logo logo--fill" href="https://www.nsbe.org/" target="_blank" rel="noopener" data-tip="nsbe.org ↗" aria-label="National Society of Black Engineers website">
+                    <img src="images/nsbelogo.png" alt="">
+                  </a>
+                  <div class="entry__body">
+                    <div class="entry__head">
+                      <h3 class="entry__title">Charter Member</h3>
+                      <p class="entry__date">Sep 2022 – Present</p>
+                    </div>
+                    <p class="entry__org">National Society of Black Engineers <span>· Los Angeles, CA</span></p>
+                    <ul class="entry__points">
+                      <li>Community service events for the local South Los Angeles area, including fundraisers, youth STEM engagement, and STEM education for lower-income neighborhoods.</li>
+                      <li>Created a NSBE Jr. chapter to Alma Mater Middle School in White Oak, Maryland, and used said program to work in conjunction with other STEM-based inclusivity work while in high school, including Zoom-based collaborative science funds during the pandemic.</li>
+                    </ul>
+                  </div>
+                </article>
+
+                <article class="entry">
+                  <span class="logo logo--fill" tabindex="0" data-tip="African-American Cinema Society">
+                    <img src="images/aacslogo.png" alt="">
+                  </span>
+                  <div class="entry__body">
+                    <div class="entry__head">
+                      <h3 class="entry__title">Member</h3>
+                      <p class="entry__date">Sep 2024 – Present</p>
+                    </div>
+                    <p class="entry__org">African-American Cinema Society at USC <span>· Los Angeles, CA</span></p>
+                    <ul class="entry__points">
+                      <li>Member of an organization dedicated to opening networking opportunities, providing community, and raising awareness around issues pertaining to African Americans in the film industry. The African-American Cinema Society works to highlight and promote art and artists invested in showcasing complex, sophisticated representations of blackness and the black diaspora. Founded in 1991 by USC alumnus John Singleton.</li>
+                    </ul>
+                  </div>
+                </article>
+              </section>
+
+              <!-- Skills: only tools named in the entries above -->
+              <section class="resume__section reveal" style="--i: 5" aria-labelledby="skills-title">
+                <h2 class="resume__label" id="skills-title">Skills</h2>
+                <div class="skills">
+                  <div class="skills__group">
+                    <h3 class="skills__title">CAD &amp; Design</h3>
+                    <ul class="tools">
+                      <li class="tool tool--cad" tabindex="0" style="--brand: #009999">Siemens NX</li>
+                      <li class="tool" tabindex="0" style="--icon: url(https://cdn.jsdelivr.net/npm/simple-icons@15.22.0/icons/dassaultsystemes.svg); --brand: #005386">SolidWorks</li>
+                      <li class="tool" tabindex="0" style="--icon: url(https://cdn.jsdelivr.net/npm/simple-icons@15.22.0/icons/autodesk.svg); --brand: #0696d7">Fusion</li>
+                    </ul>
+                  </div>
+                  <div class="skills__group">
+                    <h3 class="skills__title">Analysis &amp; Code</h3>
+                    <ul class="tools">
+                      <li class="tool tool--matlab" tabindex="0" style="--brand: #e16737">MATLAB</li>
+                      <li class="tool tool--plot" tabindex="0" style="--brand: #9b3d22">QtGrace</li>
+                      <li class="tool" tabindex="0" style="--icon: url(https://cdn.jsdelivr.net/npm/simple-icons@15.22.0/icons/python.svg); --brand: #3776ab">Python</li>
+                      <li class="tool" tabindex="0" style="--icon: url(https://cdn.jsdelivr.net/npm/simple-icons@15.22.0/icons/javascript.svg); --brand: #c9a800">JavaScript</li>
+                    </ul>
+                  </div>
+                  <div class="skills__group">
+                    <h3 class="skills__title">Research &amp; Teamwork</h3>
+                    <ul class="tools">
+                      <li class="tool" tabindex="0" style="--icon: url(https://cdn.jsdelivr.net/npm/simple-icons@15.22.0/icons/oculus.svg); --brand: #0467df">Meta Quest</li>
+                      <li class="tool" tabindex="0" style="--icon: url(https://cdn.jsdelivr.net/npm/simple-icons@15.22.0/icons/notion.svg); --brand: #1b1915">Notion</li>
+                      <li class="tool" tabindex="0" style="--icon: url(https://cdn.jsdelivr.net/npm/simple-icons@15.22.0/icons/slack.svg); --brand: #4a154b">Slack</li>
+                      <li class="tool" tabindex="0" style="--icon: url(https://cdn.jsdelivr.net/npm/simple-icons@15.22.0/icons/googledocs.svg); --brand: #4285f4">Google Docs</li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- Engineering ---------- -->
+      <section class="view view--eng" id="view-engineering" data-view="engineering" aria-labelledby="engineering-title" hidden>
+        <h1 class="sr-only" id="engineering-title">Engineering</h1>
+
+        <!-- A blueprint you move around like a map (scripts/engineering.js). -->
+        <div class="bp" id="bp">
+          <div class="bp__viewport" id="bp-viewport" tabindex="0" aria-label="Engineering blueprint. Drag to move, scroll or pinch to zoom, arrow keys to pan.">
+            <div class="bp__world" id="bp-world"></div>
+          </div>
+
+          <nav class="bp-index" id="bp-index" aria-label="Projects section">
+            <button class="bp-index__toggle" type="button" aria-expanded="true">Projects Section</button>
+            <ol class="bp-index__list"></ol>
+          </nav>
+
+          <div class="bp-mini" id="bp-mini" aria-hidden="true"></div>
+
+          <div class="bp-hud">
+            <p class="bp-coords" id="bp-coords" aria-hidden="true">X 0000 · Y 0000</p>
+            <div class="bp-zoom" role="group" aria-label="Zoom">
+              <button type="button" id="bp-zoom-out" aria-label="Zoom out">−</button>
+              <button type="button" id="bp-zoom-fit" aria-label="Fit the whole sheet"><span id="bp-zoom-level">100%</span></button>
+              <button type="button" id="bp-zoom-in" aria-label="Zoom in">+</button>
+            </div>
+          </div>
+
+          <p class="bp-hint" id="bp-hint">Drag to move · Scroll or pinch to zoom · Click a drawing</p>
+
+          <aside class="bp-panel" id="bp-panel" aria-labelledby="bp-panel-title">
+            <header class="bp-panel__head">
+              <span class="bp-panel__no" id="bp-panel-no">01</span>
+              <div class="bp-panel__label">
+                <h2 class="bp-panel__title" id="bp-panel-title" tabindex="-1"></h2>
+                <p class="bp-panel__meta" id="bp-panel-meta"></p>
+              </div>
+              <button class="bp-panel__btn" id="bp-prev" type="button" aria-label="Previous project">←</button>
+              <button class="bp-panel__btn" id="bp-next" type="button" aria-label="Next project">→</button>
+              <button class="bp-panel__btn" id="bp-close" type="button" aria-label="Close">×</button>
+            </header>
+            <div class="bp-panel__body" id="bp-panel-body"></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ---------- Film ---------- -->
+      <section class="view view--film" id="view-film" data-view="film" aria-labelledby="film-title" hidden>
+        <header class="film-head">
+          <h1 class="sr-only" id="film-title">Film</h1>
+          <p class="film-head__count" aria-live="polite"><span id="reel-now">01</span><span class="film-head__of"> / <span id="reel-total">00</span></span></p>
+        </header>
+
+        <div class="reel" aria-roledescription="carousel" aria-label="Films">
+          <div class="reel__track" id="reel-track"></div>
+          <button class="reel__nav reel__nav--prev" id="reel-prev" type="button" aria-label="Previous film">←</button>
+          <button class="reel__nav reel__nav--next" id="reel-next" type="button" aria-label="Next film">→</button>
+        </div>
+
+        <div class="strip" id="reel-strip" role="tablist" aria-label="All films"></div>
+
+        <div class="slate" id="reel-slate" aria-live="polite"></div>
+
+        <section class="writing" aria-labelledby="writing-title">
+          <h2 class="resume__label" id="writing-title">Writing</h2>
+          <div id="screenplays"></div>
+        </section>
+      </section>
+
+      <!-- ---------- Gallery ---------- -->
+      <section class="view view--gallery" id="view-gallery" data-view="gallery" aria-labelledby="gallery-title" hidden>
+        <h1 class="sr-only" id="gallery-title">Gallery</h1>
+        <header class="gal-head">
+          <p class="gal-head__count"><span id="gal-total">000</span> frames · 2023 to now</p>
+          <button class="gal-head__replay" id="gal-replay" type="button">Replay the passport <span aria-hidden="true">↺</span></button>
+        </header>
+        <ol class="gal-grid" id="gal-grid"></ol>
+      </section>
+
+      <!-- ---------- Extra ---------- -->
+      <section class="view view--extra" id="view-extra" data-view="extra" aria-labelledby="extra-title" hidden>
+        <header class="extra-intro">
+          <h1 class="sr-only" id="extra-title">Extra</h1>
+          <p class="extra-intro__text">my online mood board</p>
+        </header>
+
+        <div class="extra-grid">
+          <!-- Letterboxd -->
+          <section class="card card--watching" aria-labelledby="watching-title">
+            <header class="card__head">
+              <a class="brand brand--letterboxd" href="https://letterboxd.com/kondwaniphiri/" target="_blank" rel="noopener" data-tip="letterboxd.com ↗" aria-label="Letterboxd profile">
+                <svg viewBox="0 0 30 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="#ff8000"/><circle cx="15" cy="6" r="5" fill="#00e054"/><circle cx="24" cy="6" r="5" fill="#40bcf4"/></svg>
+              </a>
+              <h2 class="card__label" id="watching-title">Now watching</h2>
+              <p class="card__meta"><span id="film-count">01</span> / <span id="film-total">12</span></p>
+            </header>
+            <div class="watching">
+              <div class="watching__stack" id="film-stack" aria-hidden="true"></div>
+              <div class="watching__info">
+                <div class="film-text" id="film-text"></div>
+                <div class="film-nav">
+                  <button class="film-nav__btn" id="film-prev" type="button" aria-label="Previous film">←</button>
+                  <button class="film-nav__btn" id="film-next" type="button" aria-label="Next film">→</button>
+                  <p class="film-nav__hint">or press, drag, or fling the poster</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Spotify -->
+          <section class="card card--rotation" aria-labelledby="rotation-title">
+            <header class="card__head">
+              <a class="brand brand--spotify" href="https://open.spotify.com/playlist/5mHIddJLLx04Fo2ipB0Yp8" target="_blank" rel="noopener" data-tip="Open in Spotify ↗" aria-label="Open playlist in Spotify">
+                <span class="brand__mask" style="--icon: url(https://cdn.jsdelivr.net/npm/simple-icons@15.22.0/icons/spotify.svg)"></span>
+              </a>
+              <h2 class="card__label" id="rotation-title">Rotation</h2>
+              <p class="card__meta">what’s always on.</p>
+            </header>
+            <iframe class="rotation__player" title="Spotify playlist: rotation" src="https://open.spotify.com/embed/playlist/5mHIddJLLx04Fo2ipB0Yp8?utm_source=generator" height="352" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+          </section>
+
+          <!-- Interests -->
+          <section class="card card--interests" aria-labelledby="interests-title">
+            <header class="card__head">
+              <span class="brand brand--interests" aria-hidden="true">✦</span>
+              <h2 class="card__label" id="interests-title">Interests</h2>
+            </header>
+            <ul class="interests" id="interests"></ul>
+          </section>
+
+          <!-- Channels: the way into the Kondwani Shop Channel (scripts/wii.js) -->
+          <section class="card card--wii" aria-labelledby="channels-title">
+            <header class="card__head">
+              <h2 class="card__label" id="channels-title">Channels</h2>
+              <p class="card__meta">psst… try the first one</p>
+            </header>
+            <div class="channels">
+              <a class="wii-tile wii-tile--shop" id="wii-portal" href="#wii">
+                <svg class="wii-tile__art" viewBox="0 0 64 64" aria-hidden="true"><path d="M23 25v-6a9 9 0 0 1 18 0v6" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/><path d="M13 22h38l-3.2 30.5a4 4 0 0 1-4 3.5H20.2a4 4 0 0 1-4-3.5Z" fill="currentColor"/><circle cx="23" cy="29" r="2.6" fill="#fff"/><circle cx="41" cy="29" r="2.6" fill="#fff"/></svg>
+                <span class="wii-tile__name">Kondwani Shop Channel</span>
+              </a>
+              <span class="wii-tile wii-tile--empty" aria-hidden="true"></span>
+              <span class="wii-tile wii-tile--empty" aria-hidden="true"></span>
+              <span class="wii-tile wii-tile--empty" aria-hidden="true"></span>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <!-- Gallery: the passport intro and the photo lightbox -->
+    <div class="passport-intro" id="passport-intro" hidden></div>
+
+    <dialog class="lightbox" id="lightbox" aria-label="Photo">
+      <figure class="lightbox__stage">
+        <img class="lightbox__img" id="lightbox-img" alt="" referrerpolicy="no-referrer">
+      </figure>
+      <p class="lightbox__count" id="lightbox-count" aria-live="polite"></p>
+      <button class="lightbox__btn lightbox__btn--prev" id="lightbox-prev" type="button" aria-label="Previous photo">←</button>
+      <button class="lightbox__btn lightbox__btn--next" id="lightbox-next" type="button" aria-label="Next photo">→</button>
+      <button class="lightbox__btn lightbox__btn--close" id="lightbox-close" type="button" aria-label="Close">×</button>
+    </dialog>
+
+    <!-- The document viewer (scripts/viewer.js) -->
+    <dialog class="viewer" id="viewer" aria-labelledby="viewer-title">
+      <header class="viewer__head">
+        <div class="viewer__label">
+          <p class="viewer__title" id="viewer-title"></p>
+          <p class="viewer__meta" id="viewer-meta" aria-live="polite"></p>
+        </div>
+        <div class="viewer__tools" id="viewer-tools" role="group" aria-label="Zoom">
+          <button type="button" data-zoom="-1" aria-label="Zoom out">−</button>
+          <button class="viewer__zoom" type="button" data-zoom="0" id="viewer-zoom" aria-label="Fit to width">Fit</button>
+          <button type="button" data-zoom="1" aria-label="Zoom in">+</button>
+        </div>
+        <button class="viewer__icon" id="viewer-download" type="button" aria-label="Download PDF" data-tip="Download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14"/></svg>
+        </button>
+        <a class="viewer__open" id="viewer-open" href="#" target="_blank" rel="noopener">Open ↗</a>
+        <button class="viewer__icon" id="viewer-close" type="button" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </header>
+      <div class="viewer__progress" id="viewer-progress" aria-hidden="true"></div>
+      <div class="viewer__body" id="viewer-body" tabindex="-1"></div>
+    </dialog>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <p>Kondwani Phiri · Los Angeles &amp; the DC area</p>
+        <a href="mailto:kondwanihp@outlook.com">kondwanihp@outlook.com</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- The Kondwani Shop Channel (scripts/wii.js), opened from Channels on Extra -->
+  <div class="wii" id="wii" role="dialog" aria-modal="true" aria-label="Kondwani Shop Channel" hidden>
+    <div class="wii__stage" id="wii-stage">
+      <div class="wii__screen" id="wii-screen"></div>
+      <div class="wii-loading" id="wii-loading" aria-hidden="true">
+        <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="13" fill="none" stroke="#a9def6" stroke-width="4.5"/><circle cx="20" cy="7" r="4.5" fill="#34beed"/></svg>
+      </div>
+    </div>
+    <div class="wii__bar">
+      <button class="wii__music" id="wii-music" type="button" aria-pressed="true">Music: ON</button>
+      <p>Not an official Nintendo product. A fan tribute.</p>
+    </div>
+    <svg class="wii-cursor" id="wii-cursor" viewBox="0 0 36 42" aria-hidden="true">
+      <g fill="#3a4651" stroke="#3a4651" stroke-width="3.2" stroke-linejoin="round">
+        <rect x="9" y="1.5" width="7.5" height="22" rx="3.75"/>
+        <rect x="15.5" y="12.5" width="7" height="12" rx="3.5"/>
+        <rect x="21.5" y="14.5" width="6.5" height="11" rx="3.25"/>
+        <rect x="27" y="16.5" width="6" height="9.5" rx="3"/>
+        <rect x="8" y="19" width="25" height="19" rx="7"/>
+        <rect x="2" y="18" width="7" height="13" rx="3.5" transform="rotate(-32 5.5 24.5)"/>
+      </g>
+      <g fill="#fff">
+        <rect x="9" y="1.5" width="7.5" height="22" rx="3.75"/>
+        <rect x="15.5" y="12.5" width="7" height="12" rx="3.5"/>
+        <rect x="21.5" y="14.5" width="6.5" height="11" rx="3.25"/>
+        <rect x="27" y="16.5" width="6" height="9.5" rx="3"/>
+        <rect x="8" y="19" width="25" height="19" rx="7"/>
+        <rect x="2" y="18" width="7" height="13" rx="3.5" transform="rotate(-32 5.5 24.5)"/>
+      </g>
+      <text x="21" y="34" font-size="10" font-weight="800" font-family="Arial, sans-serif" fill="#34beed" text-anchor="middle">1</text>
+    </svg>
+  </div>
+
+  <script src="scripts/photos.js"></script>
+  <script src="scripts/extra-data.js"></script>
+  <script src="scripts/card-swap.js"></script>
+  <script src="scripts/typewriter.js"></script>
+  <script src="scripts/viewer.js"></script>
+  <script src="scripts/engineering-data.js"></script>
+  <script src="scripts/blueprints.js"></script>
+  <script src="scripts/engineering.js"></script>
+  <script src="scripts/film-data.js"></script>
+  <script src="scripts/film.js"></script>
+  <script src="scripts/gallery.js"></script>
+  <script src="scripts/loader.js"></script>
+  <script src="scripts/wii.js"></script>
+  <script src="scripts/site.js"></script>
+</body>
+</html>
