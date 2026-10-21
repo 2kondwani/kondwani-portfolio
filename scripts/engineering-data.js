@@ -1,27 +1,13 @@
-// Engineering projects, laid out on a blueprint sheet. Text comes from the
-// project write-ups linked below and from kondwaniphiri.com/projects; nothing
-// here is invented.
+// Engineering projects, one row each on the blueprint parts list, in this order.
+// Text comes from the project write-ups linked below and from
+// kondwaniphiri.com/projects; nothing here is invented.
 //
-//   section:  which zone of the sheet it sits in (see ENGINEERING_SHEET.sections)
-//   at:       top-left of its drawing on the sheet, in sheet units
 //   drawing:  which line drawing stands for it (scripts/blueprints.js)
 //   cover:    a Google Drive file ID whose first page becomes the report cover;
 //             without one, the cover is drawn
 //   docs:     `url` opens the file in the site's reader (reports/ holds the copies
 //             made from Drive); `drive` opens Drive's viewer, for what can't be a PDF
 //   readouts: numbers that count up when the project opens
-
-// The sheet: its size, and a dashed zone per kind of project ([x, y, width, height]).
-window.ENGINEERING_SHEET = {
-  width: 3000,
-  height: 1900,
-  sections: [
-    { id: 'aero', label: 'Aero & CFD', rect: [140, 200, 1020, 760] },
-    { id: 'cad', label: 'CAD & FEA', rect: [1240, 200, 1620, 760] },
-    { id: 'electronics', label: 'Electronics', rect: [140, 1040, 1020, 680] },
-    { id: 'research', label: 'Research', rect: [1240, 1040, 1020, 680] },
-  ],
-};
 
 window.ENGINEERING = [
   {
@@ -32,8 +18,6 @@ window.ENGINEERING = [
     // The report itself is undated; its Drive copy was last updated May 20, 2026.
     when: '2026',
     kind: 'Aero · CFD',
-    section: 'aero',
-    at: { x: 440, y: 420 },
     drawing: 'turbine',
     cover: '11GehfwOKkVCG5hqijnF7rAjkEV1kxHmz',
     team: 'Abby R., Jake S., Kondwani P.',
@@ -57,8 +41,6 @@ window.ENGINEERING = [
     context: 'Senior CAD Engineering Project · USC',
     when: 'Apr 2026',
     kind: 'CAD · FEA',
-    section: 'cad',
-    at: { x: 1570, y: 420 },
     drawing: 'governor',
     cover: '1kQH2iyoIoT9as_hPnVibDu5vg9XvcWVk',
     team: 'Houzhen Q., Adam Kim, Kondwani Phiri, Eduardo Cortes-Cruz',
@@ -81,8 +63,6 @@ window.ENGINEERING = [
     context: 'Making Smart Devices · USC',
     when: 'Spring 2026',
     kind: 'Electronics · IoT',
-    section: 'electronics',
-    at: { x: 440, y: 1220 },
     drawing: 'lightmeter',
     cover: '13TtwZ44ev5cL1fR8Sx_okmWaG913LAgy',
     team: 'Solo project',
@@ -109,8 +89,6 @@ window.ENGINEERING = [
     context: 'Computer-Aided Design · USC',
     when: 'Nov 2024',
     kind: 'CAD · FEA',
-    section: 'cad',
-    at: { x: 2110, y: 420 },
     drawing: 'drone',
     team: 'Group project',
     summary: [
@@ -127,8 +105,6 @@ window.ENGINEERING = [
     context: 'Department of Physics · Georgetown University',
     when: 'Summer 2024',
     kind: 'Research · Materials',
-    section: 'research',
-    at: { x: 1540, y: 1220 },
     drawing: 'shear',
     team: 'Independent research',
     summary: [

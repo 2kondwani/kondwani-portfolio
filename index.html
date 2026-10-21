@@ -307,43 +307,28 @@
       <section class="view view--eng" id="view-engineering" data-view="engineering" aria-labelledby="engineering-title" hidden>
         <h1 class="sr-only" id="engineering-title">Engineering</h1>
 
-        <!-- A blueprint you move around like a map (scripts/engineering.js). -->
+        <!-- The projects as a parts list on a blueprint sheet (scripts/engineering.js). -->
         <div class="bp" id="bp">
-          <div class="bp__viewport" id="bp-viewport" tabindex="0" aria-label="Engineering blueprint. Drag to move, scroll or pinch to zoom, arrow keys to pan.">
-            <div class="bp__world" id="bp-world"></div>
-          </div>
+          <svg class="bp-defs" width="0" height="0" aria-hidden="true">
+            <defs><marker id="bp-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1L10 5L0 9Z" /></marker></defs>
+          </svg>
 
-          <nav class="bp-index" id="bp-index" aria-label="Projects section">
-            <button class="bp-index__toggle" type="button" aria-expanded="true">Projects Section</button>
-            <ol class="bp-index__list"></ol>
-          </nav>
-
-          <div class="bp-mini" id="bp-mini" aria-hidden="true"></div>
-
-          <div class="bp-hud">
-            <p class="bp-coords" id="bp-coords" aria-hidden="true">X 0000 · Y 0000</p>
-            <div class="bp-zoom" role="group" aria-label="Zoom">
-              <button type="button" id="bp-zoom-out" aria-label="Zoom out">−</button>
-              <button type="button" id="bp-zoom-fit" aria-label="Fit the whole sheet"><span id="bp-zoom-level">100%</span></button>
-              <button type="button" id="bp-zoom-in" aria-label="Zoom in">+</button>
+          <header class="bp-head">
+            <div>
+              <p class="bp-head__label">Project sheet</p>
+              <p class="bp-head__sub">Coursework, research and builds · USC Viterbi · Georgetown</p>
             </div>
-          </div>
+            <dl class="bp-titleblock">
+              <div><dt>Drawn by</dt><dd>K. Phiri</dd></div>
+              <div><dt>Projects</dt><dd id="bp-count">05</dd></div>
+              <div><dt>Span</dt><dd>2024–2026</dd></div>
+              <div><dt>Scale</dt><dd>NTS</dd></div>
+            </dl>
+          </header>
 
-          <p class="bp-hint" id="bp-hint">Drag to move · Scroll or pinch to zoom · Click a drawing</p>
-
-          <aside class="bp-panel" id="bp-panel" aria-labelledby="bp-panel-title">
-            <header class="bp-panel__head">
-              <span class="bp-panel__no" id="bp-panel-no">01</span>
-              <div class="bp-panel__label">
-                <h2 class="bp-panel__title" id="bp-panel-title" tabindex="-1"></h2>
-                <p class="bp-panel__meta" id="bp-panel-meta"></p>
-              </div>
-              <button class="bp-panel__btn" id="bp-prev" type="button" aria-label="Previous project">←</button>
-              <button class="bp-panel__btn" id="bp-next" type="button" aria-label="Next project">→</button>
-              <button class="bp-panel__btn" id="bp-close" type="button" aria-label="Close">×</button>
-            </header>
-            <div class="bp-panel__body" id="bp-panel-body"></div>
-          </aside>
+          <p class="bp-cols" aria-hidden="true"><span>No.</span><span>Fig.</span><span>Description</span><span>Course</span><span>Date</span></p>
+          <ol class="bp-list" id="bp-list"></ol>
+          <p class="bp-note">Drawings are illustrative, not to scale. Select a row for its write-up.</p>
         </div>
       </section>
 

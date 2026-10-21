@@ -1093,96 +1093,58 @@ a.logo {
   }
 }
 
-/* ---------- Engineering: the blueprint (scripts/engineering.js) ---------- */
+/* ---------- Engineering: a parts list on a blueprint (scripts/engineering.js) ---------- */
 
-/* The map fills the window under the top bar, edge to edge. On this tab the page
-   doesn't scroll behind it; scrolling moves the blueprint instead. */
-.view--eng {
-  margin: calc(-1 * clamp(40px, 7vw, 72px)) calc(50% - 50vw) 0;
-}
-
-body:has(#view-engineering:not([hidden])) .main {
-  padding-bottom: 0;
-}
-
-body:has(#view-engineering:not([hidden])) .footer {
-  display: none;
-}
-
+/* The sheet: blueprint blue under an 80px grid with 16px subdivisions,
+   inside a ruled drawing border. */
 .bp {
   --bp: #1d4a85;
   --bp-deep: #143563;
   --bp-ink: rgb(234 242 255 / 0.94);
-  --bp-soft: rgb(234 242 255 / 0.45);
+  --bp-soft: rgb(234 242 255 / 0.55);
+  --bp-faint: rgb(234 242 255 / 0.2);
   --bp-amber: #f5c86a;
-  --bp-glass: rgb(18 46 88 / 0.86);
   --mono: ui-monospace, "SF Mono", Menlo, monospace;
   position: relative;
-  height: calc(100dvh - 65px);
-  overflow: hidden;
-  background: var(--bp-deep);
-  color: var(--bp-ink);
-  font-family: var(--mono);
-}
-
-/* Shadowed edges, like a sheet under a desk lamp. */
-.bp::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  box-shadow: inset 0 0 140px rgb(5 15 35 / 0.55);
-  pointer-events: none;
-}
-
-.bp__viewport {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  outline: none;
-  touch-action: none;
-  cursor: grab;
-}
-
-.bp__viewport.is-dragging {
-  cursor: grabbing;
-}
-
-.bp__viewport:focus-visible {
-  box-shadow: inset 0 0 0 2px var(--bp-amber);
-}
-
-/* The sheet: blueprint blue under a 100-unit grid with 20-unit subdivisions. */
-.bp__world {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 3000px;
-  height: 1900px;
-  transform-origin: 0 0;
+  padding: clamp(22px, 3.4vw, 40px);
+  border-radius: 6px;
   background-color: var(--bp);
   background-image:
-    linear-gradient(rgb(234 242 255 / 0.13) 1.5px, transparent 1.5px),
-    linear-gradient(90deg, rgb(234 242 255 / 0.13) 1.5px, transparent 1.5px),
-    linear-gradient(rgb(234 242 255 / 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(234 242 255 / 0.055) 1px, transparent 1px);
-  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
-  box-shadow: 0 40px 100px -30px rgb(0 0 0 / 0.6);
-}
-
-.bp__world.is-moving {
-  will-change: transform;
+    linear-gradient(rgb(234 242 255 / 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(234 242 255 / 0.12) 1px, transparent 1px),
+    linear-gradient(rgb(234 242 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(234 242 255 / 0.05) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  color: var(--bp-ink);
+  font-family: var(--mono);
+  box-shadow:
+    inset 0 0 120px rgb(5 15 35 / 0.4),
+    0 30px 60px -32px rgb(10 30 60 / 0.6);
 }
 
 /* Paper grain. */
-.bp__world::before {
+.bp::before {
   content: "";
   position: absolute;
   inset: 0;
-  opacity: 0.22;
+  border-radius: inherit;
+  opacity: 0.2;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   pointer-events: none;
+}
+
+.bp::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1.5px solid var(--bp-soft);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.bp > * {
+  position: relative;
 }
 
 .bp-defs {
@@ -1193,146 +1155,289 @@ body:has(#view-engineering:not([hidden])) .footer {
   fill: var(--bp-soft);
 }
 
-/* Drawing border with zone references: 1–8 across, A–F down. */
-.bp-border {
-  position: absolute;
-  inset: 60px;
-  border: 3px solid var(--bp-ink);
-  outline: 1.5px solid var(--bp-soft);
-  outline-offset: 12px;
-  pointer-events: none;
+.bp-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px 32px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--bp-ink);
 }
 
-.bp-zone {
-  position: absolute;
-  translate: -50% -50%;
-  font-size: 18px;
-  color: var(--bp-soft);
+.bp-head__label {
+  font: 500 15px/1 var(--sans);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
 }
 
-.bp-zone--top {
-  top: -32px;
-}
-
-.bp-zone--bottom {
-  top: calc(100% + 32px);
-}
-
-.bp-zone--left {
-  left: -32px;
-}
-
-.bp-zone--right {
-  left: calc(100% + 32px);
-}
-
-.bp-heading {
-  position: absolute;
-  left: 140px;
-  top: 74px;
-  pointer-events: none;
-}
-
-.bp-heading__title {
-  font: 500 44px/1 var(--sans);
+.bp-head__sub {
+  margin-top: 8px;
+  font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: var(--bp-soft);
 }
 
-.bp-heading__sub {
-  margin-top: 10px;
-  font-size: 17px;
-  letter-spacing: 0.08em;
+.bp-titleblock {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: 1.5px;
+  margin: 0;
+  border: 1.5px solid var(--bp-ink);
+  background: var(--bp-ink);
+}
+
+.bp-titleblock > div {
+  padding: 7px 14px 8px;
+  background: var(--bp);
+}
+
+.bp-titleblock dt {
+  font-size: 10px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--bp-soft);
 }
 
-/* A dashed zone per kind of project. */
-.bp-section {
-  position: absolute;
-  border: 2px dashed rgb(234 242 255 / 0.32);
-  border-radius: 4px;
-  pointer-events: none;
-}
-
-.bp-section__tab {
-  position: absolute;
-  left: -2px;
-  bottom: calc(100% + 10px);
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  padding: 8px 14px;
-  background: var(--bp-ink);
-  color: var(--bp-deep);
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
+.bp-titleblock dd {
+  margin: 3px 0 0;
+  font: 500 15px/1.2 var(--sans);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.bp-section__tab small {
-  font-size: 14px;
-  opacity: 0.6;
+/* Column heads, then one row per project: number, drawing, title, course, date. */
+.bp-cols,
+.bp-row__head {
+  display: grid;
+  grid-template-columns: 34px 140px minmax(0, 1fr) 110px 120px 30px;
+  gap: 22px;
+  align-items: center;
 }
 
-/* A project: its drawing and a callout tag, all one button. */
-.bp-item {
-  position: absolute;
-  width: 420px;
-  height: 320px;
+.bp-cols {
+  padding: 14px 0 10px;
+  border-bottom: 1px solid var(--bp-faint);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bp-soft);
+}
+
+.bp-list {
+  margin: 0;
   padding: 0;
+  list-style: none;
+}
+
+.bp-row {
+  border-bottom: 1px dashed rgb(234 242 255 / 0.28);
+}
+
+.bp-row__h {
+  font: inherit;
+}
+
+.bp-row__head {
+  position: relative;
+  width: 100%;
+  padding: 16px 0;
   border: 0;
   background: none;
   color: inherit;
   font: inherit;
+  text-align: left;
   cursor: pointer;
-  transition: opacity 400ms ease;
 }
 
-.bp-item:focus-visible {
+/* The highlight runs a little past the columns, like a selection on the sheet. */
+.bp-row__head::before {
+  content: "";
+  position: absolute;
+  inset: 4px -14px;
+  border-radius: 4px;
+  background: rgb(234 242 255 / 0.08);
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.bp-row__head:hover::before,
+.bp-row.is-open .bp-row__head::before {
+  opacity: 1;
+}
+
+.bp-row__head:focus-visible {
   outline: none;
 }
 
-/* The selection box: faint on hover, amber around the open project. */
-.bp-item::before {
+.bp-row__head:focus-visible::before {
+  opacity: 1;
+  box-shadow: 0 0 0 2px var(--bp-amber);
+}
+
+.bp-row__head > * {
+  position: relative;
+}
+
+.bp-row__no {
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: var(--bp-amber);
+}
+
+.bp-row__fig {
+  aspect-ratio: 420 / 320;
+  border: 1px solid var(--bp-faint);
+  background: rgb(20 53 99 / 0.35);
+  transition:
+    border-color 200ms ease,
+    background-color 200ms ease;
+}
+
+.bp-row__head:hover .bp-row__fig,
+.bp-row.is-open .bp-row__fig {
+  border-color: var(--bp-soft);
+  background: rgb(20 53 99 / 0.6);
+}
+
+/* Thicker lines than on a full sheet, so a small drawing still reads. */
+.bp-row__fig .bp-l {
+  stroke-width: 4;
+}
+
+.bp-row__fig :is(.bp-thin, .bp-dim, .bp-center) {
+  stroke-width: 2.2;
+}
+
+.bp-row__fig .bp-t {
+  display: none;
+}
+
+.bp-row__title {
+  display: block;
+  font: 500 clamp(17px, 2vw, 23px)/1.15 var(--sans);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.bp-row__kind {
+  display: block;
+  margin-top: 7px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bp-soft);
+}
+
+.bp-row__also {
+  display: none;
+}
+
+.bp-row__course,
+.bp-row__when {
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.bp-row__when {
+  color: var(--bp-soft);
+}
+
+/* A plus that turns to a cross while the row is open. */
+.bp-row__toggle {
+  width: 30px;
+  height: 30px;
+  border: 1.5px solid var(--bp-soft);
+  border-radius: 50%;
+  transition:
+    transform 400ms var(--ease-out),
+    border-color 200ms ease,
+    background-color 200ms ease;
+}
+
+.bp-row__toggle::before,
+.bp-row__toggle::after {
   content: "";
   position: absolute;
-  inset: -26px -26px -128px;
-  border: 2px dashed transparent;
-  border-radius: 6px;
-  pointer-events: none;
-  transition:
-    border-color 300ms ease,
-    inset 300ms var(--ease-out);
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 1.5px;
+  background: currentColor;
+  translate: -50% -50%;
 }
 
-.bp-item:hover::before,
-.bp-item:focus-visible::before {
-  border-color: var(--bp-soft);
+.bp-row__toggle::after {
+  rotate: 90deg;
 }
 
-.bp-item.is-active::before {
-  inset: -36px -36px -138px;
+.bp-row__head:hover .bp-row__toggle {
+  border-color: var(--bp-ink);
+}
+
+.bp-row.is-open .bp-row__toggle {
+  transform: rotate(45deg);
   border-color: var(--bp-amber);
+  background: var(--bp-amber);
+  color: var(--bp-deep);
 }
 
-.bp.has-active .bp-item:not(.is-active) {
-  opacity: 0.4;
+/* The write-up slides open under its row, as a printed data sheet on the blueprint. */
+.bp-detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 550ms var(--ease-out);
 }
 
+.bp-row.is-open .bp-detail {
+  grid-template-rows: 1fr;
+}
+
+.bp-list.is-instant .bp-detail {
+  transition: none;
+}
+
+.bp-detail__clip {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.bp-sheet {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 22px 32px;
+  margin: 6px 0 24px;
+  padding: clamp(18px, 3vw, 30px);
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--ink);
+  font-family: var(--sans);
+  box-shadow: 0 24px 50px -24px rgb(0 0 0 / 0.65);
+}
+
+.bp-sheet .sheet {
+  transform: rotate(-2deg);
+}
+
+.bp-sheet > .meter {
+  grid-column: 1 / -1;
+  margin: 8px 0 0;
+}
+
+.bp-sheet .readouts {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+/* Line drawings, shared with the Wii channel's thumbnails. Arrowheads come from
+   the #bp-arrow marker at the top of the sheet. */
 .bp-drawing {
   display: block;
   width: 100%;
   height: 100%;
   overflow: visible;
-  transition: filter 300ms ease;
-}
-
-.bp-item:hover .bp-drawing,
-.bp-item:focus-visible .bp-drawing,
-.bp-item.is-active .bp-drawing {
-  filter: drop-shadow(0 0 7px rgb(170 210 255 / 0.6));
 }
 
 .bp-l {
@@ -1372,80 +1477,25 @@ body:has(#view-engineering:not([hidden])) .footer {
   letter-spacing: 0.06em;
 }
 
-.bp-tag {
-  position: absolute;
-  left: 0;
-  top: calc(100% + 26px);
-  display: grid;
-  gap: 4px;
-  min-width: 300px;
-  padding: 12px 16px 13px;
-  border: 1.5px solid var(--bp-ink);
-  background: rgb(20 53 99 / 0.9);
-  text-align: left;
-  transition:
-    background-color 250ms ease,
-    color 250ms ease;
-}
-
-/* The leader line from the drawing down to its tag. */
-.bp-tag::before {
-  content: "";
-  position: absolute;
-  left: 30px;
-  bottom: 100%;
-  width: 1.5px;
-  height: 26px;
-  background: var(--bp-ink);
-}
-
-.bp-tag__no {
-  font-size: 15px;
-  letter-spacing: 0.1em;
-  color: var(--bp-amber);
-}
-
-.bp-tag__title {
-  font: 500 24px/1.1 var(--sans);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.bp-tag__meta {
-  font-size: 14px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--bp-soft);
-}
-
-.bp-item:hover .bp-tag,
-.bp-item:focus-visible .bp-tag,
-.bp-item.is-active .bp-tag {
-  background: var(--bp-ink);
-  color: var(--bp-deep);
-}
-
-.bp-item:hover .bp-tag__no,
-.bp-item:hover .bp-tag__meta,
-.bp-item:focus-visible .bp-tag__no,
-.bp-item:focus-visible .bp-tag__meta,
-.bp-item.is-active .bp-tag__no,
-.bp-item.is-active .bp-tag__meta {
-  color: rgb(20 53 99 / 0.75);
-}
-
-/* First look: solid lines plot in a pen stroke at a time, then the rest fades up. */
-.bp__world.is-plotting .bp-l {
+/* First look: the drawings plot in a pen stroke at a time, row after row, then
+   the construction lines fade up. Pointing at a row plots its drawing again. */
+.bp-list.is-plotting .bp-l,
+.bp-row__fig.is-replot .bp-l {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  animation: plot 1500ms cubic-bezier(0.45, 0, 0.2, 1) forwards;
+  animation: plot 1400ms cubic-bezier(0.45, 0, 0.2, 1) forwards;
   animation-delay: calc(var(--d) * 1ms);
 }
 
-.bp__world.is-plotting :is(.bp-thin, .bp-center, .bp-dim, .bp-t, .bp-tag) {
+.bp-row__fig.is-replot .bp-l {
+  animation-duration: 900ms;
+  animation-delay: 0ms;
+}
+
+.bp-list.is-plotting :is(.bp-thin, .bp-center, .bp-dim) {
   opacity: 0;
-  animation: bp-fade 700ms ease forwards;
-  animation-delay: calc((var(--d) + 900) * 1ms);
+  animation: bp-fade 600ms ease forwards;
+  animation-delay: calc((var(--d) + 800) * 1ms);
 }
 
 @keyframes plot {
@@ -1460,483 +1510,107 @@ body:has(#view-engineering:not([hidden])) .footer {
   }
 }
 
-.bp-notes {
-  position: absolute;
-  left: 2340px;
-  top: 1040px;
-  width: 520px;
-  padding: 22px 26px;
-  border: 2px solid var(--bp-ink);
-  font-size: 16px;
-  line-height: 1.55;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.bp-notes__title {
-  margin-bottom: 10px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-decoration: underline;
-  text-underline-offset: 6px;
-}
-
-.bp-notes ol {
-  display: grid;
-  gap: 8px;
-  padding-left: 1.4em;
-}
-
-.bp-titleblock {
-  position: absolute;
-  left: 2340px;
-  top: 1440px;
-  width: 520px;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2px;
-  margin: 0;
-  border: 2px solid var(--bp-ink);
-  background: var(--bp-ink);
-}
-
-.bp-titleblock > div {
-  padding: 10px 14px;
-  background: var(--bp);
-}
-
-.bp-titleblock__name {
-  grid-column: 1 / -1;
-}
-
-.bp-titleblock dt {
-  font-size: 12px;
-  letter-spacing: 0.16em;
+.bp-note {
+  margin-top: 16px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--bp-soft);
 }
 
-.bp-titleblock dd {
-  margin: 4px 0 0;
-  font: 500 20px/1.2 var(--sans);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.bp-titleblock__name dd {
-  font-size: 34px;
-}
-
-/* Heads-up display: these stay put while the sheet moves under them. */
-.bp-index,
-.bp-mini,
-.bp-coords,
-.bp-zoom,
-.bp-hint {
-  border: 1px solid rgb(234 242 255 / 0.25);
-  background: var(--bp-glass);
-  -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
-}
-
-.bp-index {
-  position: absolute;
-  left: 16px;
-  top: 16px;
-  z-index: 3;
-  width: 252px;
-  max-height: calc(100% - 32px);
-  overflow: auto;
-  border-radius: 12px;
-  box-shadow: 0 16px 40px -20px rgb(0 0 0 / 0.6);
-}
-
-.bp-index__toggle {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 13px 14px;
-  border: 0;
-  background: none;
-  color: var(--bp-ink);
-  font: 600 12px/1 var(--mono);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.bp-index__toggle::after {
-  content: "+";
-}
-
-.bp-index.is-open .bp-index__toggle::after {
-  content: "−";
-}
-
-.bp-index__list {
-  display: none;
-  margin: 0;
-  padding: 0 8px 10px;
-  list-style: none;
-}
-
-.bp-index.is-open .bp-index__list {
-  display: grid;
-  gap: 4px;
-}
-
-.bp-index__list ol {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.bp-index__section {
-  width: 100%;
-  padding: 8px 6px 4px;
-  border: 0;
-  background: none;
-  color: var(--bp-soft);
-  font: 600 11px/1.2 var(--mono);
-  letter-spacing: 0.16em;
-  text-align: left;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.bp-index__section:hover {
-  color: var(--bp-ink);
-}
-
-.bp-index__item {
-  display: flex;
-  gap: 10px;
-  width: 100%;
-  padding: 7px 8px;
-  border: 0;
-  border-radius: 6px;
-  background: none;
-  color: var(--bp-ink);
-  font: 400 14px/1.3 var(--sans);
-  text-align: left;
-  cursor: pointer;
-  transition: background-color 150ms ease;
-}
-
-.bp-index__item span {
-  font: 500 12px/1.5 var(--mono);
-  color: var(--bp-amber);
-}
-
-.bp-index__item:hover {
-  background: rgb(234 242 255 / 0.1);
-}
-
-.bp-index__item[aria-current] {
-  background: var(--bp-ink);
-  color: var(--bp-deep);
-}
-
-.bp-index__item[aria-current] span {
-  color: var(--bp-deep);
-}
-
-.bp-mini {
-  position: absolute;
-  left: 16px;
-  bottom: 16px;
-  z-index: 3;
-  width: 190px;
-  aspect-ratio: 3000 / 1900;
-  overflow: hidden;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: opacity 300ms ease;
-}
-
-.bp-mini__section {
-  position: absolute;
-  border: 1px dashed rgb(234 242 255 / 0.4);
-}
-
-.bp-mini__dot {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  margin: -3px 0 0 -3px;
-  border-radius: 50%;
-  background: var(--bp-ink);
-}
-
-.bp-mini__dot.is-active {
-  background: var(--bp-amber);
-  box-shadow: 0 0 0 3px rgb(245 200 106 / 0.3);
-}
-
-.bp-mini__view {
-  position: absolute;
-  border: 1.5px solid var(--bp-amber);
-  border-radius: 2px;
-  background: rgb(245 200 106 / 0.08);
-}
-
-.bp-hud {
-  position: absolute;
-  right: 16px;
-  bottom: 16px;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition:
-    right 550ms var(--ease-out),
-    opacity 300ms ease;
-}
-
-.bp.has-active .bp-hud {
-  right: calc(min(480px, 44vw) + 36px);
-}
-
-.bp-coords {
-  padding: 9px 12px;
-  border-radius: 8px;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  color: var(--bp-soft);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
-.bp-zoom {
-  display: flex;
-  border-radius: 999px;
-}
-
-.bp-zoom button {
-  min-width: 36px;
-  height: 36px;
-  padding: 0 10px;
-  border: 0;
-  border-radius: 999px;
-  background: none;
-  color: var(--bp-ink);
-  font: 500 16px/1 var(--mono);
-  cursor: pointer;
-  transition: background-color 150ms ease;
-}
-
-.bp-zoom button:hover {
-  background: rgb(234 242 255 / 0.12);
-}
-
-#bp-zoom-level {
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  font-variant-numeric: tabular-nums;
-}
-
-.bp-hint {
-  position: absolute;
-  left: 50%;
-  top: 16px;
-  z-index: 3;
-  translate: -50% 0;
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  white-space: nowrap;
-  pointer-events: none;
-  transition:
-    opacity 600ms ease,
-    translate 600ms ease;
-}
-
-.bp-hint.is-gone {
-  opacity: 0;
-  translate: -50% -8px;
-}
-
-/* The open project's write-up, in the site's paper colors over the blueprint. */
-.bp-panel {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  bottom: 12px;
-  z-index: 4;
-  display: flex;
-  flex-direction: column;
-  width: min(480px, 44vw);
-  overflow: hidden;
-  border-radius: 16px;
-  background: var(--card);
-  color: var(--ink);
-  font-family: var(--sans);
-  box-shadow: 0 30px 80px -24px rgb(0 0 0 / 0.65);
-  visibility: hidden;
-  transform: translateX(calc(100% + 24px));
-  transition:
-    transform 550ms var(--ease-out),
-    visibility 0s 550ms;
-}
-
-.bp-panel.is-open {
-  visibility: visible;
-  transform: none;
-  transition:
-    transform 550ms var(--ease-out),
-    visibility 0s;
-}
-
-.bp-panel__head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 14px 14px 18px;
-  border-bottom: 1px solid var(--line);
-}
-
-.bp-panel__no {
-  font: 500 13px/1 var(--mono);
-  color: var(--accent);
-}
-
-.bp-panel__label {
-  flex: 1;
-  min-width: 0;
-}
-
-.bp-panel__title {
-  font: 500 24px/1.15 var(--serif);
-  outline: none;
-}
-
-.bp-panel__meta {
-  margin-top: 2px;
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-
-.bp-panel__btn {
-  flex: none;
-  width: 34px;
-  height: 34px;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: transparent;
-  color: var(--ink);
-  font-size: 16px;
-  cursor: pointer;
-  transition:
-    background-color 200ms ease,
-    color 200ms ease;
-}
-
-.bp-panel__btn:hover {
-  background: var(--ink);
-  color: var(--paper);
-}
-
-.bp-panel__body {
-  flex: 1;
-  padding: 20px 20px 32px;
-  overflow: auto;
-  overscroll-behavior: contain;
-}
-
-.bp-cover {
-  display: grid;
-  grid-template-columns: 130px minmax(0, 1fr);
-  gap: 18px;
-  align-items: start;
-  margin-bottom: 22px;
-}
-
-.bp-cover .sheet {
-  transform: rotate(-2deg);
-}
-
-.bp-cover .doc-btns {
-  margin-top: 0;
-}
-
-.bp-panel .eng-detail__lead {
-  font-size: 19px;
-}
-
-.bp-panel .eng-detail__text {
-  font-size: 15px;
-}
-
-.bp-panel .readouts {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.bp-panel .meter {
-  margin: 28px 0 0;
-  padding: 18px;
-}
-
-.bp-panel .meter__body {
-  grid-template-columns: minmax(0, 1fr);
-}
-
-.bp-panel .meter__device {
-  justify-self: center;
-  width: min(100%, 300px);
-}
-
+/* Narrow screens: the number sits over the title, course and date move under
+   it, and the write-up stacks. */
 @media (max-width: 760px) {
-  .bp-index {
-    width: auto;
-    max-width: calc(100% - 32px);
+  .bp {
+    padding: 22px 18px;
   }
 
-  .bp-index.is-open {
-    width: 252px;
-  }
-
-  .bp-mini {
-    width: 120px;
-  }
-
-  .bp-coords {
+  .bp-cols {
     display: none;
   }
 
-  /* Below the folded index, wrapping on narrow phones. */
-  .bp-hint {
-    top: 68px;
-    width: max-content;
-    max-width: calc(100% - 32px);
-    white-space: normal;
-    text-align: center;
+  .bp-head {
+    padding-bottom: 16px;
   }
 
-  .bp-panel {
-    top: auto;
-    left: 8px;
-    right: 8px;
-    bottom: 8px;
-    width: auto;
-    height: 64%;
-    transform: translateY(calc(100% + 24px));
+  .bp-titleblock {
+    grid-template-columns: repeat(2, auto);
   }
 
-  .bp.has-active .bp-hud,
-  .bp.has-active .bp-mini {
-    opacity: 0;
-    pointer-events: none;
+  .bp-row__head {
+    grid-template-columns: 76px minmax(0, 1fr) 26px;
+    grid-template-areas:
+      "fig no toggle"
+      "fig main toggle";
+    gap: 4px 14px;
+    padding: 14px 0;
   }
 
-  .bp.has-active .bp-hud {
-    right: 16px;
+  .bp-row__no {
+    grid-area: no;
+    align-self: end;
+    font-size: 12px;
+  }
+
+  .bp-row__fig {
+    grid-area: fig;
+  }
+
+  .bp-row__main {
+    grid-area: main;
+    align-self: start;
+  }
+
+  .bp-row__toggle {
+    grid-area: toggle;
+    width: 26px;
+    height: 26px;
+  }
+
+  .bp-row__title {
+    font-size: 16px;
+    letter-spacing: 0.03em;
+  }
+
+  .bp-row__kind,
+  .bp-row__also {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+
+  .bp-row__course,
+  .bp-row__when {
+    display: none;
+  }
+
+  .bp-row__also {
+    display: block;
+    margin-top: 3px;
+    color: var(--bp-soft);
+    text-transform: uppercase;
+  }
+
+  .bp-sheet {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .bp-sheet .eng-detail__lead {
+    font-size: 18px;
+  }
+
+  .bp-sheet__aside {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+  }
+
+  .bp-sheet__aside .doc-btns {
+    margin-top: 0;
   }
 }
 
-/* Write-up pieces, shared with the panel above. */
+/* Write-up pieces, in each row's data sheet. */
 .doc-btns {
   margin-top: 22px;
   display: grid;
@@ -2621,10 +2295,8 @@ body:has(#view-engineering:not([hidden])) .footer {
 
 @media (prefers-reduced-motion: reduce) {
   .meter__needle,
-  .bp-panel,
-  .bp-hud,
-  .bp-item,
-  .bp-item::before {
+  .bp-detail,
+  .bp-row__toggle {
     transition: none;
   }
 
