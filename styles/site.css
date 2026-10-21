@@ -3702,7 +3702,9 @@ html.is-intro body {
   font-size: 22px;
 }
 
-@media (max-width: 560px) {
+/* Phones, and foldables standing half-open like a laptop: the arrows move to
+   the bottom, out of the crease and within reach. */
+@media (max-width: 560px), (vertical-viewport-segments: 2) {
   .lightbox__stage {
     padding: 60px 12px 84px;
   }

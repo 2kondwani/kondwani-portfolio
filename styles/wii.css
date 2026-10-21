@@ -166,10 +166,12 @@ html.is-wii body {
   max-width: none;
 }
 
+/* Centered on the area wii.js picks (--cx, --cy): the window, less the bottom
+   bar on phones, or one side of the fold on a partly folded foldable. */
 .wii__stage {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: var(--cx, 50%);
+  top: var(--cy, 50%);
   z-index: 1;
   width: 608px;
   height: 456px;
@@ -177,11 +179,10 @@ html.is-wii body {
   transform: scale(var(--s));
 }
 
-/* Phones keep room under the stage for the bottom bar (wii.js reserves 64px). */
-@media (max-width: 699px) {
-  .wii__stage {
-    top: calc(50% - 32px);
-  }
+/* Folded, the stage sits to one side, so the side fades would land wrong. */
+.wii.is-folded::before,
+.wii.is-folded::after {
+  display: none;
 }
 
 .wii__screen {

@@ -987,10 +987,29 @@
 
   // ---------- Scale to the window ----------
 
+  // The stage fills the window, less room for the bottom bar on phones. On a
+  // foldable that's partly folded (the Viewport Segments API reports two
+  // segments) it moves off the crease, where buttons are hard to tap: into the
+  // left half when the phone is held like a book, and into the top half when it
+  // stands like a laptop, like a DS's top screen. Elsewhere there's one segment,
+  // or no API at all.
+  function area() {
+    const segments = window.viewport?.segments;
+    if (segments?.length === 2) {
+      const [a, b] = segments;
+      return a.top === b.top && b.width > a.width ? b : a;
+    }
+    return { left: 0, top: 0, width: innerWidth, height: innerHeight - (innerWidth < 700 ? 64 : 0) };
+  }
+
   function fit() {
-    const s = Math.min(innerWidth / W, (innerHeight - (innerWidth < 700 ? 64 : 0)) / H);
+    const a = area();
+    const s = Math.min(a.width / W, a.height / H);
     layer.style.setProperty('--s', s.toFixed(4));
     layer.style.setProperty('--sw', `${(W * s).toFixed(1)}px`);
+    layer.style.setProperty('--cx', `${(a.left + a.width / 2).toFixed(1)}px`);
+    layer.style.setProperty('--cy', `${(a.top + a.height / 2).toFixed(1)}px`);
+    layer.classList.toggle('is-folded', window.viewport?.segments?.length === 2);
   }
 
   // ---------- Open and close ----------
@@ -1074,6 +1093,10 @@
     portalRect = portal.getBoundingClientRect();
   });
   addEventListener('resize', () => isOpen && fit());
+  // Folding part way changes the segments without always resizing the window.
+  for (const fold of ['(horizontal-viewport-segments: 2)', '(vertical-viewport-segments: 2)']) {
+    matchMedia(fold).addEventListener('change', () => isOpen && fit());
+  }
 
   window.Wii = {
     toggle(on) {

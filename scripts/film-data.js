@@ -13,8 +13,7 @@ window.FILMS = [
     client: 'Nike',
     byline: 'A film by Abba Wada and Kondwani Phiri',
     role: 'Co-director & editor',
-    // kondwaniphiri.com dates it Nov 2025; the Instagram post went up Feb 27, 2026.
-    when: 'Nov 2025',
+    when: 'Feb 2026',
     aspect: '9 / 16', // an Instagram reel
     src: null,
     poster: null,
