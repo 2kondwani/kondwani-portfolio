@@ -148,5 +148,38 @@
     `);
   }
 
-  window.BLUEPRINTS = { turbine, governor, drone, lightmeter, shear };
+  // Ducted fan: the duct and 3-blade prop from the front, and a section through
+  // the duct (intake lip, prop plane, diffuser) with the flow and the thrust.
+  function ductedfan() {
+    const blades = [0, 120, 240]
+      .map((a) => {
+        const [x1, y1] = polar(130, 160, 22, a - 14);
+        const [q1x, q1y] = polar(130, 160, 62, a - 2);
+        const [x2, y2] = polar(130, 160, 92, a + 8);
+        const [x3, y3] = polar(130, 160, 92, a + 26);
+        const [q2x, q2y] = polar(130, 160, 58, a + 26);
+        const [x4, y4] = polar(130, 160, 22, a + 14);
+        return L(`M${x1} ${y1}Q${q1x} ${q1y} ${x2} ${y2}L${x3} ${y3}Q${q2x} ${q2y} ${x4} ${y4}Z`);
+      })
+      .join('');
+    return svg(`
+      ${center('M8 160H252M130 36V284')}
+      ${C(130, 160, 112)}${C(130, 160, 98)}${C(130, 160, 22)}${C(130, 160, 7)}
+      ${blades}
+      ${thin('M18 160V24M242 160V24')}
+      ${dim('M18 30H242')}${T(130, 22, 'Ø DUCT')}
+      ${center('M276 160H414')}
+      ${L('M292 88H404V96L330 106C304 104 288 104 288 98C288 92 289 89 292 88Z')}
+      ${L('M292 232H404V224L330 214C304 216 288 216 288 222C288 228 289 231 292 232Z')}
+      ${L('M330 108V212')}
+      ${L('M318 148H342V172H318Z')}
+      <rect class="bp-thin bp-hidden" x="342" y="146" width="30" height="28"/>
+      ${arrow('M298 128H394')}${arrow('M298 192H394')}
+      ${arrow('M282 160H252')}${T(266, 150, 'T', 'middle', 12)}
+      ${T(296, 78, 'LIP', 'middle', 8)}${T(392, 78, 'DIFFUSER', 'middle', 8)}
+      ${T(345, 262, 'SECTION A–A', 'middle', 9)}
+    `);
+  }
+
+  window.BLUEPRINTS = { turbine, governor, drone, lightmeter, shear, ductedfan };
 })();

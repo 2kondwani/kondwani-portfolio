@@ -39,7 +39,7 @@ window.ENGINEERING = [
     title: 'Centrifugal Governor',
     course: 'AME 408',
     context: 'Senior CAD Engineering Project · USC',
-    when: 'Apr 2026',
+    when: 'Spring 2026',
     kind: 'CAD · FEA',
     drawing: 'governor',
     cover: '1kQH2iyoIoT9as_hPnVibDu5vg9XvcWVk',
@@ -80,6 +80,30 @@ window.ENGINEERING = [
     docs: [
       { label: 'Developer documentation', url: 'reports/TAC348-Light-Meter-Developer-Documentation.pdf' },
       { label: 'Walkthrough video', drive: '1nO0pupfGpJVEyhGqzh7j7Mma8saKWDvS' },
+    ],
+  },
+  {
+    id: 'ductedfan',
+    title: 'Ducted Fan Thrust Stand',
+    course: 'AME 441A',
+    context: 'Group 32 Lab Project · USC',
+    when: 'Fall 2025',
+    kind: 'Aero · Testing',
+    drawing: 'ductedfan',
+    team: 'Emmanuel T. Abolarin, Jude Holemon, Justin Zandi, Kondwani Phiri',
+    summary: [
+      "Ducted fans can out-thrust open propellers at a standstill, since the duct raises mass flow and cuts tip losses, but there's little benchmark data on by how much. Our group built and calibrated a modular static-thrust test stand that swaps quickly between open and ducted propellers and measures thrust per watt and non-dimensional performance.",
+      'The rig runs on an 80/20 aluminum base with a quick-swap motor bracket, a three-piece duct (intake lip, center ring, diffuser), and an S-beam load cell in line with the thrust. A LabVIEW DAQ holds RPM with a PID loop and steps through automated test sequences, logging thrust, RPM, power and vibration, all inside a guarded test cage with an E-stop.',
+    ],
+    readouts: [
+      { value: 40, unit: '%', label: 'More thrust, ducted 3-blade vs. calibration prop' },
+      { value: 15, unit: '%', label: 'More thrust, open 3-blade vs. calibration prop' },
+      { value: 5, label: 'Automated test states' },
+    ],
+    methods: ['Static thrust testing', 'Momentum theory', 'LabVIEW DAQ', 'PID RPM control', 'S-beam load cell'],
+    docs: [
+      { label: 'Poster', url: 'reports/AME441A-Ducted-Fan-Poster.pdf' },
+      { label: 'Presentation', url: 'reports/AME441A-Ducted-Fan-Presentation.pdf' },
     ],
   },
   {
