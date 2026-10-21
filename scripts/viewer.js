@@ -86,10 +86,14 @@
     try {
       const pdfLib = await pdfjs();
       const task = pdfLib.getDocument({ url });
+      // Hosts that serve byte ranges open the document before the whole file has
+      // arrived, and the download keeps reporting after that; by then the label
+      // shows the page. Compressed responses can also count past 100%.
       task.onProgress = ({ loaded: done, total }) => {
-        if (token !== session || !total) return;
-        progress.style.setProperty('--p', String(done / total));
-        meta.textContent = `Loading ${Math.round((done / total) * 100)}%`;
+        if (token !== session || !total || loaded) return;
+        const k = Math.min(1, done / total);
+        progress.style.setProperty('--p', String(k));
+        meta.textContent = `Loading ${Math.round(k * 100)}%`;
       };
       loaded = await task.promise;
     } catch {
