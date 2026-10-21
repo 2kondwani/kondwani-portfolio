@@ -2348,8 +2348,11 @@ a.logo {
   margin: 28px calc(50% - 50vw) 0;
 }
 
+/* A film is as tall as the window allows once the bar and counter above it are
+   counted (short screens: phones on their side, unfolded foldables). svh is
+   the height with the browser's toolbars showing. */
 .reel__track {
-  --h: clamp(240px, 62vh, 620px);
+  --h: clamp(220px, min(62vh, 100svh - 300px), 620px);
   position: relative;
   display: flex;
   align-items: center;
@@ -2370,6 +2373,21 @@ a.logo {
   scroll-snap-type: none;
   cursor: grabbing;
   user-select: none;
+}
+
+@media (max-height: 560px) {
+  .film-head__count {
+    font-size: 40px;
+  }
+
+  .reel {
+    margin-top: 8px;
+  }
+
+  .reel__track {
+    --h: clamp(200px, 100svh - 250px, 620px);
+    padding-block: 22px;
+  }
 }
 
 /* --d is 0 for the film in front, 1 a full step away: the further out, the
