@@ -4,9 +4,30 @@
   "buildCommand": null,
   "installCommand": null,
   "redirects": [
-    { "source": "/academic", "destination": "/#about", "permanent": true },
-    { "source": "/projects", "destination": "/#engineering", "permanent": true },
-    { "source": "/gallery", "destination": "/#gallery", "permanent": true },
-    { "source": "/more", "destination": "/#extra", "permanent": true }
+    {
+      "source": "/academic",
+      "destination": "/#about",
+      "permanent": true
+    },
+    {
+      "source": "/projects",
+      "destination": "/#engineering",
+      "permanent": true
+    },
+    {
+      "source": "/gallery",
+      "destination": "/#gallery",
+      "permanent": true
+    },
+    {
+      "source": "/more",
+      "destination": "/#extra",
+      "permanent": true
+    },
+    {
+      "source": "/Resume%20_Phiri_Kondwani_Fall24.pdf",
+      "destination": "/Kondwani-Phiri-Resume.pdf",
+      "permanent": false
+    }
   ]
 }

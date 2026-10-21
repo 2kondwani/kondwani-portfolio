@@ -178,16 +178,43 @@
     });
   }
 
+  // ---------- Résumé ----------
+
+  // Opens in the site's PDF reader, which can also download it. A modified click
+  // (new tab, save) still gets the plain link.
+  document.getElementById('resume-link').addEventListener('click', (e) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return;
+    e.preventDefault();
+    window.openViewer({ title: 'Résumé · Kondwani Phiri', pdf: e.currentTarget.getAttribute('href') });
+  });
+
   // ---------- Extra ----------
 
   let extraRendered = false;
 
+  // "Now watching" comes live from Letterboxd through api/letterboxd.js, which
+  // Vercel caches for an hour. The snapshot in extra-data.js stands in when the
+  // feed can't be reached in time, and on a local server with no API.
+  let filmsLoad = null;
+  function loadFilms() {
+    filmsLoad ||= Promise.race([
+      fetch('/api/letterboxd')
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => (data?.films?.length ? data.films : null))
+        .catch(() => null),
+      new Promise((resolve) => setTimeout(resolve, 2500, null)),
+    ]).then((live) => {
+      if (live) window.EXTRA.letterboxd = live;
+      return window.EXTRA.letterboxd;
+    });
+    return filmsLoad;
+  }
+
   function renderExtra() {
     if (extraRendered) return;
     extraRendered = true;
-    const data = window.EXTRA;
-    renderFilms(data.letterboxd);
-    renderInterests(data.interests);
+    loadFilms().then(renderFilms);
+    renderInterests(window.EXTRA.interests);
   }
 
   // Posters in a Card swap stack (scripts/card-swap.js); the front film's notes sit beside it.
@@ -266,6 +293,9 @@
   }
 
   // ---------- Boot ----------
+
+  // Fetched early, so the list is ready by the time Extra (or the Wii channel) opens.
+  loadFilms();
 
   if (root.classList.contains('is-landing')) {
     bioTyping.hide();

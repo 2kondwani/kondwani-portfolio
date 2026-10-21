@@ -1,6 +1,6 @@
 // Content for the Extra tab, copied from kondwaniphiri.com/more on 2026-10-20.
-// The old site pulls Letterboxd from its server on every visit; until this site
-// has one, it's a snapshot to update by hand.
+// The live Letterboxd list comes from api/letterboxd.js; the `letterboxd` entries
+// here are a snapshot (newest first) shown when that can't be reached.
 
 window.EXTRA = {
   letterboxd: [
